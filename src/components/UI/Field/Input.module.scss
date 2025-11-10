@@ -1,0 +1,115 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  max-width: 45rem;
+  width: 100%;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--color-gray-300);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
+  border-radius: 0.5rem;
+  background-color: var(--color-gray-50);
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+  &:focus-within {
+    outline: none;
+    border-color: var(--color-indigo-300);
+    box-shadow: 0 0 0 2px var(--color-indigo-100);
+  }
+
+  &.error {
+    border-color: var(--color-red-500);
+    box-shadow: 0 0 0 2px var(--color-red-100);
+
+    &:focus-within {
+      border-color: var(--color-red-500);
+      box-shadow: 0 0 0 2px var(--color-red-300);
+    }
+  }
+}
+
+.iconLeft {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 0.75rem;
+  color: var(--color-gray-600);
+  flex-shrink: 0;
+
+  svg {
+    color: var(--color-gray-600);
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+}
+
+.iconRight {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 0.75rem;
+  color: var(--color-gray-600);
+  cursor: pointer;
+  flex-shrink: 0;
+
+  svg {
+    color: var(--color-gray-600);
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+.input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background-color: var(--color-white);
+  color: var(--color-gray-700);
+  padding: 1.125rem;
+  font-family: var(--font-montserrat);
+  font-size: 1rem;
+  line-height: 120%;
+  font-weight: 400;
+  transition: color 0.15s ease-in-out;
+
+  &::placeholder {
+    color: var(--color-gray-400);
+  }
+
+  &.inputWithLeftIcon {
+    padding-left: 0.75rem;
+  }
+
+  &.inputWithRightIcon {
+    padding-right: 0.75rem;
+  }
+
+  &.inputError {
+    color: var(--color-red-800);
+  }
+}
+
+.supportTextError {
+  color: var(--color-red-600);
+}
+
+.passwordToggle {
+  &:hover {
+    opacity: 0.7;
+  }
+
+  svg {
+    color: var(--color-gray-600);
+  }
+
+  &.passwordVisible {
+    svg {
+      opacity: 0.6;
+    }
+  }
+}

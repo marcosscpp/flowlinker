@@ -1,0 +1,67 @@
+:root {
+  /* Base Colors */
+  --color-white: #ffffff;
+
+  /* Gray Scale */
+  --color-gray-50: #f5f3f9;
+  --color-gray-100: #e1dfe7;
+  --color-gray-300: #a9a8ae;
+  --color-gray-400: #9f9fa4;
+  --color-gray-600: #68686d;
+  --color-gray-700: #4a4a4d;
+  --color-gray-800: #29292b;
+  --color-gray-900: #151516;
+  --color-black: #000000;
+
+  /* Brand Colors - Indigo */
+  --color-indigo-100: #e8e6ff;
+  --color-indigo-200: #d4d1ff;
+  --color-indigo-300: #b4abff;
+  --color-indigo-400: #907cff;
+  --color-indigo-500: #6e47ff;
+  --color-indigo-600: #5d21ff;
+  --color-indigo-800: #430dd1;
+  --color-indigo-900: #370da5;
+
+  /* Semantic Colors - Red */
+  --color-red-100: #F6BABA;
+  --color-red-300: #d57a7a;
+  --color-red-500: #cf4848;
+  --color-red-600: #af2a2a;
+  --color-red-800: #af2a2a;
+
+  /* Semantic Colors - Green */
+  --color-green-300: #2aaf5d;
+  --color-green-500: #1f8641;
+
+  /* Social Media Colors - Blue */
+  --color-blue-500: #00c6ff;
+  --color-blue-700: #0073ff;
+
+  /* Social Media Colors - Purple */
+  --color-purple-700: #6228d7;
+
+  /* Social Media Colors - Pink */
+  --color-pink-600: #ee2a7b;
+
+  /* Social Media Colors - Yellow */
+  --color-yellow-300: #f9ce34;
+
+  /* Gradients - Referenciando variáveis de cores */
+  --gradient-facebook: linear-gradient(
+    135deg,
+    var(--color-blue-700) 0%,
+    var(--color-blue-500) 100%
+  );
+  --gradient-instagram: linear-gradient(
+    135deg,
+    var(--color-pink-600) 0%,
+    var(--color-purple-700) 50%,
+    var(--color-yellow-300) 100%
+  );
+
+  /* Font Families */
+  --font-space-grotesk: "Space Grotesk", sans-serif;
+  --font-space-mono: "Space Mono", monospace;
+  --font-montserrat: "Montserrat", sans-serif;
+}

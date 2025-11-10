@@ -1,0 +1,28 @@
+/* Desktop First - Base: 1920px = 16px */
+html {
+  font-size: 87.5%; /* 14px = 1rem (mobile) */
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 93.75%; /* 15px = 1rem (tablet) */
+  }
+}
+
+@media (min-width: 1024px) {
+  html {
+    font-size: 100%; /* 16px = 1rem (desktop base) */
+  }
+}
+
+@media (min-width: 1920px) {
+  html {
+    font-size: 100%; /* 16px = 1rem (design base) */
+  }
+}
+
+@media (min-width: 2560px) {
+  html {
+    font-size: 112.5%; /* 18px = 1rem (large screens) */
+  }
+}

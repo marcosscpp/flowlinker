@@ -1,0 +1,2 @@
+export { useExample } from '@/hooks/useExample';
+
