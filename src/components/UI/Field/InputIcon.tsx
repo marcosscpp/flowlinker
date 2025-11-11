@@ -17,7 +17,6 @@ const InputIcon = ({ children, position }: InputIconProps) => {
     size: position === "left" ? 24 : 32,
   };
 
-  // Mescla as props padrão com as props do ícone (props do ícone têm prioridade)
   const existingProps = (children.props || {}) as Record<string, unknown>;
   return cloneElement(children, {
     ...defaultProps,

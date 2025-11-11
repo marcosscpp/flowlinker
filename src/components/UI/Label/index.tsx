@@ -12,7 +12,7 @@ const Label = ({ children, error = false, htmlFor }: LabelProps) => {
   return (
     <label
       htmlFor={htmlFor}
-      className={clsx("label", styles.label, {
+      className={clsx("label", "text-gray-700", styles.label, {
         [styles.labelError]: error,
       })}
     >

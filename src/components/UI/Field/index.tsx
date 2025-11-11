@@ -1,5 +1,5 @@
-import { isValidElement, useState } from "react";
-import type { ReactNode } from "react";
+import { forwardRef, isValidElement, useState } from "react";
+import type { InputHTMLAttributes, ReactNode } from "react";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ViewIcon, ViewOffSlashIcon } from "@hugeicons/core-free-icons";
 import Label from "../Label";
@@ -7,138 +7,165 @@ import InputIcon from "./InputIcon";
 import clsx from "clsx";
 import styles from "./Input.module.scss";
 
-interface InputProps {
+type AllowedInputType =
+  | "email"
+  | "number"
+  | "password"
+  | "search"
+  | "tel"
+  | "text"
+  | "url";
+
+export interface BaseInputProps
+  extends Omit<
+    InputHTMLAttributes<HTMLInputElement>,
+    "prefix" | "size" | "type"
+  > {
   error?: boolean;
-  id: string;
   label: string;
   leftIcon?: ReactNode;
-  name: string;
-  placeholder?: string;
   rightIcon?: ReactNode;
   showLeftIcon?: boolean;
   showRightIcon?: boolean;
   supportText?: string;
-  type?: "text" | "email" | "password" | "number" | "tel" | "url" | "search";
-  value?: string;
+  type?: AllowedInputType;
 }
 
-const Input = ({
-  error = false,
-  id,
-  label,
-  leftIcon,
-  name,
-  placeholder,
-  rightIcon,
-  showLeftIcon,
-  showRightIcon,
-  supportText,
-  type = "text",
-  value,
-}: InputProps) => {
-  const shouldShowLeftIcon = showLeftIcon ?? !!leftIcon;
-  const shouldShowRightIcon = showRightIcon ?? !!rightIcon;
+const BaseInput = forwardRef<HTMLInputElement, BaseInputProps>(
+  (
+    {
+      error = false,
+      id,
+      label,
+      leftIcon,
+      name,
+      placeholder,
+      rightIcon,
+      showLeftIcon,
+      showRightIcon,
+      supportText,
+      type = "text",
+      ...rest
+    },
+    ref
+  ) => {
+    const shouldShowLeftIcon = showLeftIcon ?? !!leftIcon;
+    const shouldShowRightIcon = showRightIcon ?? !!rightIcon;
 
-  return (
-    <div className={styles.field}>
-      <Label htmlFor={id} error={error}>
-        {label}
-      </Label>
+    return (
+      <div className={styles.field}>
+        <Label htmlFor={id ?? name ?? ""} error={error}>
+          {label}
+        </Label>
 
-      <div className={clsx(styles.inputWrapper, { [styles.error]: error })}>
-        {shouldShowLeftIcon && leftIcon && (
-          <div className={styles.iconLeft}>
-            {isValidElement(leftIcon) ? (
-              <InputIcon position="left">{leftIcon}</InputIcon>
-            ) : (
-              leftIcon
-            )}
-          </div>
-        )}
+        <div className={clsx(styles.inputWrapper, { [styles.error]: error })}>
+          {shouldShowLeftIcon && leftIcon ? (
+            <div className={styles.iconLeft}>
+              {isValidElement(leftIcon) ? (
+                <InputIcon position="left">{leftIcon}</InputIcon>
+              ) : (
+                leftIcon
+              )}
+            </div>
+          ) : null}
 
-        <input
-          className={clsx(styles.input, "placeholder", {
-            [styles.inputError]: error,
-            [styles.inputWithLeftIcon]: shouldShowLeftIcon,
-            [styles.inputWithRightIcon]: shouldShowRightIcon,
-          })}
-          type={type}
-          placeholder={placeholder || ""}
-          id={id}
-          name={name}
-          value={value}
-        />
+          <input
+            ref={ref}
+            className={clsx(styles.input, "placeholder", {
+              [styles.inputError]: error,
+              [styles.inputWithLeftIcon]: shouldShowLeftIcon,
+              [styles.inputWithRightIcon]: shouldShowRightIcon,
+            })}
+            id={id ?? name ?? undefined}
+            name={name}
+            placeholder={placeholder ?? ""}
+            type={type}
+            {...rest}
+          />
 
-        {shouldShowRightIcon && rightIcon && (
-          <div className={styles.iconRight}>
-            {isValidElement(rightIcon) ? (
-              <InputIcon position="right">{rightIcon}</InputIcon>
-            ) : (
-              rightIcon
-            )}
-          </div>
-        )}
-      </div>
-
-      {supportText && (
-        <div
-          className={clsx("support-text", { [styles.supportTextError]: error })}
-        >
-          {supportText}
+          {shouldShowRightIcon && rightIcon ? (
+            <div className={styles.iconRight}>
+              {isValidElement(rightIcon) ? (
+                <InputIcon position="right">{rightIcon}</InputIcon>
+              ) : (
+                rightIcon
+              )}
+            </div>
+          ) : null}
         </div>
-      )}
-    </div>
-  );
-};
+
+        {supportText ? (
+          <div
+            className={clsx("support-text", {
+              [styles.supportTextError]: error,
+            })}
+          >
+            {supportText}
+          </div>
+        ) : null}
+      </div>
+    );
+  }
+);
+
+BaseInput.displayName = "Input";
 
 interface PasswordInputProps
-  extends Omit<InputProps, "type" | "rightIcon" | "showRightIcon"> {
+  extends Omit<BaseInputProps, "type" | "rightIcon" | "showRightIcon"> {
   showPasswordToggle?: boolean;
 }
 
-const PasswordInput = ({
-  error = false,
-  id,
-  label,
-  leftIcon,
-  name,
-  placeholder,
-  showLeftIcon,
-  showPasswordToggle = true,
-  supportText,
-  value,
-}: PasswordInputProps) => {
-  const [showPassword, setShowPassword] = useState(false);
+const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
+  (
+    {
+      error = false,
+      id,
+      label,
+      leftIcon,
+      name,
+      placeholder,
+      showLeftIcon,
+      showPasswordToggle = true,
+      supportText,
+      ...rest
+    },
+    ref
+  ) => {
+    const [showPassword, setShowPassword] = useState(false);
 
-  const rightIcon = showPasswordToggle ? (
-    <button
-      className={styles.passwordToggle}
-      type="button"
-      onClick={() => setShowPassword((prev) => !prev)}
-      aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
-    >
-      <HugeiconsIcon icon={showPassword ? ViewOffSlashIcon : ViewIcon} />
-    </button>
-  ) : undefined;
+    const toggleButton = showPasswordToggle ? (
+      <button
+        className={styles.passwordToggle}
+        type="button"
+        onClick={() => setShowPassword((prev) => !prev)}
+        aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+      >
+        <HugeiconsIcon icon={showPassword ? ViewOffSlashIcon : ViewIcon} />
+      </button>
+    ) : undefined;
 
-  return (
-    <Input
-      error={error}
-      id={id}
-      label={label}
-      leftIcon={leftIcon}
-      name={name}
-      placeholder={placeholder}
-      rightIcon={rightIcon}
-      showLeftIcon={showLeftIcon}
-      showRightIcon={showPasswordToggle}
-      supportText={supportText}
-      type={showPassword ? "text" : "password"}
-      value={value}
-    />
-  );
-};
+    return (
+      <BaseInput
+        ref={ref}
+        error={error}
+        id={id}
+        label={label}
+        leftIcon={leftIcon}
+        name={name}
+        placeholder={placeholder}
+        rightIcon={toggleButton}
+        showLeftIcon={showLeftIcon}
+        showRightIcon={showPasswordToggle}
+        supportText={supportText}
+        type={showPassword ? "text" : "password"}
+        {...rest}
+      />
+    );
+  }
+);
 
-Input.Password = PasswordInput;
+PasswordInput.displayName = "InputPassword";
+
+const Input = Object.assign(BaseInput, { Password: PasswordInput });
 
 export default Input;

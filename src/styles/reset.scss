@@ -47,9 +47,12 @@ h6 {
 }
 
 button {
-  border: none;
-  background-color: transparent;
   cursor: pointer;
+}
+
+a {
+  color: var(--color-indigo-800);
+  font-weight: 700;
 }
 
 #root,

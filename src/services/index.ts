@@ -1,2 +1,2 @@
-export { api } from '@/services/api';
-
+export { api } from "@/services/api";
+export { authService } from "@/services/auth";

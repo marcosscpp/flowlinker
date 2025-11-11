@@ -1,2 +1,1 @@
-export { ExampleProvider, useExampleContext } from '@/context/ExampleContext';
-
+export { AuthProvider, useAuth } from "@/context/AuthContext";

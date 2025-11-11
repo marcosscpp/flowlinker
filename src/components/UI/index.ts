@@ -1,8 +1,8 @@
-export { default as Field } from './Field';
-export { default as Label } from './Label';
-export { default as Button } from './Button';
-export { default as Badge } from './Badge';
-export { default as Status } from './Status';
-export { default as Toggler } from './Toggler';
-export { default as SidebarItem } from './SidebarItem';
-
+export { default as Field } from "./Field";
+export { default as Label } from "./Label";
+export { default as Button } from "./Button";
+export { default as Badge } from "./Badge";
+export { default as Status } from "./Status";
+export { default as Toggler } from "./Toggler";
+export { default as SidebarItem } from "./SidebarItem";
+export { default as Loader } from "./Loader";

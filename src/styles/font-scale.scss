@@ -1,4 +1,3 @@
-/* Desktop First - Base: 1920px = 16px */
 html {
   font-size: 87.5%; /* 14px = 1rem (mobile) */
 }
@@ -11,7 +10,13 @@ html {
 
 @media (min-width: 1024px) {
   html {
-    font-size: 100%; /* 16px = 1rem (desktop base) */
+    font-size: 81.25%; /* 13px = 1rem (desktop base) */
+  }
+}
+
+@media (min-width: 1440px) {
+  html {
+    font-size: 87.5%; /* 14px = 1rem (intermediate desktop) */
   }
 }
 
