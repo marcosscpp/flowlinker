@@ -1,24 +1,24 @@
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
-import { Home, Login } from "@/pages";
-import { AuthProvider, useAuth } from "@/context";
-import type { ReactNode } from "react";
+import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
+import {
+  Home,
+  Login,
+  Stats,
+  Billing,
+  Profiles,
+  AI,
+  Devices,
+} from "@/pages";
+import { AuthProvider } from "@/context";
+import { SidebarView, PrivateRoute, PublicRoute } from "@/components";
 
-interface PrivateRouteProps {
-  children: ReactNode;
-}
-
-const PrivateRoute = ({ children }: PrivateRouteProps) => {
-  const { isAuthenticated, isLoading } = useAuth();
-
-  if (isLoading) {
-    return null;
-  }
-
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
-
-  return <>{children}</>;
+const PrivateLayout = () => {
+  return (
+    <PrivateRoute>
+      <SidebarView>
+        <Outlet />
+      </SidebarView>
+    </PrivateRoute>
+  );
 };
 
 function App() {
@@ -26,15 +26,24 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<Login />} />
+          {/* Rota pública */}
           <Route
-            path="/"
+            path="/login"
             element={
-              <PrivateRoute>
-                <Home />
-              </PrivateRoute>
+              <PublicRoute>
+                <Login />
+              </PublicRoute>
             }
           />
+
+          <Route element={<PrivateLayout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/estatisticas" element={<Stats />} />
+            <Route path="/pagamentos" element={<Billing />} />
+            <Route path="/personas" element={<Profiles />} />
+            <Route path="/inteligencia-artificial" element={<AI />} />
+            <Route path="/dispositivos" element={<Devices />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </AuthProvider>

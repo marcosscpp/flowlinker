@@ -1,0 +1,56 @@
+.item {
+  border-radius: 0.25rem;
+  overflow: hidden;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem;
+  width: 100%;
+  color: var(--color-gray-900);
+  text-decoration: none;
+}
+
+.contentWrapper {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 0.75rem;
+  padding: 0.5rem;
+}
+
+.traillingIcon {
+
+  flex-shrink: 0;
+}
+
+.badge {
+  flex-shrink: 0;
+  background: var(--color-indigo-100);
+  border-radius: 0.25rem;
+  color: var(--color-indigo-800);
+  padding: 0.25rem 0.75rem;
+  text-align: center;
+}
+
+.expanded {
+  min-width: 12.5rem;
+}
+
+.active {
+  background: var(--color-indigo-100);
+
+  .badge {
+    background: var(--color-gray-50);
+  }
+  .content {
+    color: var(--color-indigo-800);
+
+    span {
+      font-weight: 500;
+    }
+  }
+}

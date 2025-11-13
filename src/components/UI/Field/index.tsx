@@ -51,6 +51,7 @@ const BaseInput = forwardRef<HTMLInputElement, BaseInputProps>(
   ) => {
     const shouldShowLeftIcon = showLeftIcon ?? !!leftIcon;
     const shouldShowRightIcon = showRightIcon ?? !!rightIcon;
+    
 
     return (
       <div className={styles.field}>

@@ -6,3 +6,4 @@ export { default as Status } from "./Status";
 export { default as Toggler } from "./Toggler";
 export { default as SidebarItem } from "./SidebarItem";
 export { default as Loader } from "./Loader";
+export { default as PageHeader } from "./PageHeader";

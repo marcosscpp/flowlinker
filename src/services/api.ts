@@ -1,7 +1,7 @@
 import axios, { AxiosError } from "axios";
 
 const API_BASE_URL =
-  import.meta.env.API_BASE_URL || "https://37b23ebdb144.ngrok-free.app/";
+  import.meta.env.API_BASE_URL || "https://flowlinker.onrender.com";
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
@@ -11,29 +11,19 @@ const axiosInstance = axios.create({
   withCredentials: true,
 });
 
-const extractErrorMessage = (error: AxiosError) => {
-  const fallbackMessage = "Erro na requisição";
-
+const extractErrorMessage = (error: AxiosError): string => {
   if (error.response?.status === 401 || error.response?.status === 403) {
-    return "Credenciais inválidas. Verifique seu e-mail e senha.";
+    return "Credenciais inválidas";
   }
 
   if (error.response?.data && typeof error.response.data === "object") {
     const data = error.response.data as { message?: string };
     if (data.message) {
-      if (data.message.toLowerCase().includes("invalid")) {
-        return "Credenciais inválidas. Verifique seu e-mail e senha.";
-      }
-
       return data.message;
     }
   }
 
-  if (error.message.toLowerCase().includes("invalid")) {
-    return "Credenciais inválidas. Verifique seu e-mail e senha.";
-  }
-
-  return error.message || fallbackMessage;
+  return error.message || "Erro na requisição";
 };
 
 const api = {

@@ -1,11 +1,7 @@
-import styles from "./AI.module.scss";
+import { ComingSoon } from "@/components";
 
 const AI = () => {
-  return (
-    <div className={styles.container}>
-      <h1>IA</h1>
-    </div>
-  );
+  return <ComingSoon />;
 };
 
 export default AI;

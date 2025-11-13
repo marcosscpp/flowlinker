@@ -1,21 +1,14 @@
 import { api } from "@/services/api";
 
-type LoginType = "web" | "device";
-
 export interface LoginPayload {
   email: string;
   password: string;
-  type?: LoginType;
 }
 
 export interface AuthUser {
   id: string;
   name: string;
   email: string;
-}
-
-export interface LoginResponse {
-  user: AuthUser;
 }
 
 const AUTH_ENDPOINT = {
@@ -25,17 +18,16 @@ const AUTH_ENDPOINT = {
 } as const;
 
 export const authService = {
-  login: async <T = LoginResponse>(payload: LoginPayload) => {
+  login: async (payload: LoginPayload) => {
     const params = new URLSearchParams({
       username: payload.email,
       password: payload.password,
-      type: payload.type ?? "web",
+      type: "web",
     });
 
     const endpoint = `${AUTH_ENDPOINT.LOGIN}?${params.toString()}`;
 
-    const data = await api.post<T>(endpoint);
-    return data;
+    await api.post<void>(endpoint);
   },
 
   me: async <T = AuthUser>() => {

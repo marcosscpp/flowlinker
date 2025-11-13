@@ -1,3 +1,4 @@
+import { cloneElement, isValidElement } from "react";
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 
 import clsx from "clsx";
@@ -12,6 +13,24 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   fullWidth?: boolean;
 }
 
+const BUTTON_ICON_SIZE = "1.75rem"; // 28px
+
+const processIcon = (icon: ReactNode): ReactNode => {
+  if (!isValidElement(icon)) {
+    return icon;
+  }
+
+  const defaultProps: Record<string, unknown> = {
+    size: BUTTON_ICON_SIZE,
+  };
+
+  const existingProps = (icon.props || {}) as Record<string, unknown>;
+  return cloneElement(icon, {
+    ...defaultProps,
+    ...existingProps,
+  });
+};
+
 const Button = ({
   children,
   className,
@@ -22,6 +41,9 @@ const Button = ({
   type = "button",
   ...props
 }: ButtonProps) => {
+  const processedLeftIcon = leftIcon ? processIcon(leftIcon) : null;
+  const processedRightIcon = rightIcon ? processIcon(rightIcon) : null;
+
   return (
     <button
       type={type}
@@ -33,11 +55,15 @@ const Button = ({
       )}
       {...props}
     >
-      {leftIcon ? <span className={styles.icon}>{leftIcon}</span> : null}
+      {processedLeftIcon ? (
+        <span className={styles.icon}>{processedLeftIcon}</span>
+      ) : null}
 
       <span className={styles.text}>{children}</span>
 
-      {rightIcon ? <span className={styles.icon}>{rightIcon}</span> : null}
+      {processedRightIcon ? (
+        <span className={styles.icon}>{processedRightIcon}</span>
+      ) : null}
 
       {isLoading ? <Loader size="sm" aria-hidden /> : null}
     </button>

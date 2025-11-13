@@ -1,4 +1,7 @@
-export { default as Header } from './Header';
-export { default as Sidebar } from './Sidebar';
-export * from './UI';
-
+export { default as Header } from "./Header";
+export * from "./Sidebar";
+export * from "./UI";
+export * from "./Layout";
+export * from "./Routes";
+export * from "./Loading";
+export * from "./ComingSoon";

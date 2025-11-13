@@ -3,18 +3,13 @@ import {
   useContext,
   useEffect,
   useMemo,
-  useReducer, // Importado
-  useCallback, // Importado
+  useReducer,
+  useCallback,
   type ReactNode,
 } from "react";
 import { authService } from "@/services";
-import type { AuthUser, LoginPayload, LoginResponse } from "@/services/auth";
+import type { AuthUser, LoginPayload } from "@/services/auth";
 
-// As types de serviço permanecem as mesmas
-// ...
-
-// A interface do contexto é simplificada, pois 'setSession' é agora
-// uma lógica interna do reducer e não precisa ser exposta.
 interface AuthContextValue {
   user: AuthUser | null;
   isAuthenticated: boolean;
@@ -26,9 +21,6 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
-// --- Lógica do Reducer ---
-
-// 1. Definir o tipo do estado
 type State = {
   user: AuthUser | null;
   isAuthenticated: boolean;
@@ -36,25 +28,22 @@ type State = {
   error: string | null;
 };
 
-// 2. Definir os tipos de ações possíveis
 type Action =
   | { type: "INITIALIZE_SUCCESS"; payload: AuthUser }
   | { type: "INITIALIZE_FAILURE" }
   | { type: "LOGIN_START" }
-  | { type: "LOGIN_SUCCESS"; payload: AuthUser }
+  | { type: "LOGIN_SUCCESS" }
   | { type: "LOGIN_FAILURE"; payload: string }
   | { type: "LOGOUT_START" }
   | { type: "LOGOUT_SUCCESS" };
 
-// 3. Definir o estado inicial
 const INITIAL_STATE: State = {
   user: null,
   isAuthenticated: false,
-  isLoading: true, // Começa como true para verificar a sessão
+  isLoading: true,
   error: null,
 };
 
-// 4. Criar a função reducer
 const authReducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "INITIALIZE_SUCCESS":
@@ -80,7 +69,6 @@ const authReducer = (state: State, action: Action): State => {
     case "LOGIN_SUCCESS":
       return {
         ...state,
-        user: action.payload,
         isAuthenticated: true,
         isLoading: false,
       };
@@ -101,32 +89,24 @@ const authReducer = (state: State, action: Action): State => {
         user: null,
         isAuthenticated: false,
         isLoading: false,
-        error: null, // Limpa erros ao deslogar
+        error: null,
       };
     default:
       return state;
   }
 };
 
-// --- Componente Provider ---
-
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  // Substituímos os múltiplos 'useState' por um 'useReducer'
   const [state, dispatch] = useReducer(authReducer, INITIAL_STATE);
 
-  // Efeito para verificar a sessão no carregamento
   useEffect(() => {
-    // Usamos AbortController para lidar com a limpeza
     const abortController = new AbortController();
     const { signal } = abortController;
 
     const bootstrapSession = async () => {
       try {
-        // Supondo que authService.me pode aceitar um AbortSignal
-        // Se não, o `if (!signal.aborted)` abaixo ainda funciona
-        const profile = await authService.me<AuthUser>(/* { signal } */);
+        const profile = await authService.me<AuthUser>();
 
-        // Só atualiza o estado se o componente não foi desmontado
         if (!signal.aborted) {
           dispatch({ type: "INITIALIZE_SUCCESS", payload: profile });
         }
@@ -139,35 +119,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     bootstrapSession();
 
-    // Função de limpeza que aborta a requisição/atualização
     return () => {
       abortController.abort();
     };
-  }, []); // Executa apenas na montagem
+  }, []);
 
-  // As ações agora são memoizadas com useCallback
-  // Elas disparam ações para o reducer em vez de usar 'setState'
   const login = useCallback(async (payload: LoginPayload) => {
     dispatch({ type: "LOGIN_START" });
     try {
-      const response = await authService.login<LoginResponse | void>(payload);
-
-      let userData: AuthUser | null = null;
-
-      if (response && typeof response === "object" && "user" in response) {
-        userData = (response as LoginResponse).user ?? null;
-      }
-
-      if (!userData) {
-        userData = await authService.me<AuthUser>();
-        
-      }
-
-      if (!userData) {
-        throw new Error("Não foi possível recuperar os dados do usuário.");
-      }
-
-      dispatch({ type: "LOGIN_SUCCESS", payload: userData });
+      await authService.login(payload);
+      dispatch({ type: "LOGIN_SUCCESS" });
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "Não foi possível fazer login";
@@ -181,29 +142,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       await authService.logout();
     } catch (err) {
-      // Mesmo se o logout da API falhar, forçamos o logout no cliente.
       console.error("Falha na chamada da API de logout:", err);
     } finally {
-      // Sempre despacha SUCESSO para limpar o estado do cliente
       dispatch({ type: "LOGOUT_SUCCESS" });
     }
   }, []);
 
-  // O valor do contexto é criado combinando o estado do reducer
-  // com as ações memoizadas
   const value = useMemo<AuthContextValue>(
     () => ({
       ...state,
       login,
       logout,
     }),
-    [state, login, logout] // Depende do objeto de estado e das funções
+    [state, login, logout]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-// O hook 'useAuth' permanece exatamente o mesmo
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {

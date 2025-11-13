@@ -1,7 +1,14 @@
 /* Space Grotesk - Titles */
+.title-xl {
+  font-family: var(--font-space-grotesk);
+  font-size: 2.625rem; /* 42px */
+  line-height: 120%;
+  font-weight: 700;
+}
+
 .title-lg {
   font-family: var(--font-space-grotesk);
-  font-size: 2.25rem;
+  font-size: 2.25rem; /* 36px */
   line-height: 120%;
   font-weight: 700;
 }
@@ -94,4 +101,3 @@
   font-weight: 600;
   text-transform: none;
 }
-

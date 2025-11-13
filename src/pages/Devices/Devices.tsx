@@ -1,8 +1,8 @@
 import { ComingSoon } from "@/components";
 
-const Billing = () => {
+const Devices = () => {
   return <ComingSoon />;
 };
 
-export default Billing;
+export default Devices;
 

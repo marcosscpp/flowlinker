@@ -1,11 +1,7 @@
-import styles from "./Profiles.module.scss";
+import { ComingSoon } from "@/components";
 
 const Profiles = () => {
-  return (
-    <div className={styles.container}>
-      <h1>Perfis</h1>
-    </div>
-  );
+  return <ComingSoon />;
 };
 
 export default Profiles;

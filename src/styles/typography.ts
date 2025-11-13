@@ -1,8 +1,14 @@
 export const typography = {
   spaceGrotesk: {
+    titleXl: {
+      fontFamily: "'Space Grotesk', sans-serif",
+      fontSize: "2.625rem", // 42px
+      lineHeight: "120%",
+      fontWeight: 700, // Bold
+    },
     titleLg: {
       fontFamily: "'Space Grotesk', sans-serif",
-      fontSize: "2.25rem",
+      fontSize: "2.25rem", // 36px
       lineHeight: "120%",
       fontWeight: 700, // Bold
     },

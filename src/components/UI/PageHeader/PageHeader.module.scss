@@ -1,0 +1,14 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.titleSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem; /* 12px */
+}
+
+.subtitle {
+  padding-right: 1.875rem; /* 30px */
+}
