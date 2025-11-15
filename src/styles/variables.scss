@@ -24,13 +24,13 @@
   --color-indigo-900: #370da5;
 
   /* Semantic Colors - Red */
-  
+
   --color-red-50: #f0cbcb;
-  --color-red-100: #F6BABA;
+  --color-red-100: #f6baba;
   --color-red-300: #d57a7a;
   --color-red-500: #cf4848;
   --color-red-600: #af2a2a;
-  --color-red-800: #711C1C;
+  --color-red-800: #711c1c;
 
   /* Semantic Colors - Green */
   --color-green-300: #2aaf5d;
@@ -47,19 +47,21 @@
   --color-pink-600: #ee2a7b;
 
   /* Social Media Colors - Yellow */
+  --color-yellow-200: #e3e33b;
   --color-yellow-300: #f9ce34;
+  --color-yellow-400: #c9cf1c;
 
   /* Gradients - Referenciando variáveis de cores */
   --gradient-facebook: linear-gradient(
-    135deg,
-    var(--color-blue-700) 0%,
-    var(--color-blue-500) 100%
+    90deg,
+    var(--color-blue-500) 0%,
+    var(--color-blue-700) 100%
   );
   --gradient-instagram: linear-gradient(
-    135deg,
-    var(--color-pink-600) 0%,
-    var(--color-purple-700) 50%,
-    var(--color-yellow-300) 100%
+    90deg,
+    var(--color-yellow-300) 0%,
+    var(--color-pink-600) 50%,
+    var(--color-purple-700) 100%
   );
 
   /* Font Families */

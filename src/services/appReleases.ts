@@ -5,7 +5,7 @@ export interface LatestReleaseResponse {
 }
 
 const APP_RELEASES_ENDPOINT = {
-  LATEST: "/app/releases/latest", 
+  LATEST: "/app/releases/latest",
 } as const;
 
 export const appReleasesService = {

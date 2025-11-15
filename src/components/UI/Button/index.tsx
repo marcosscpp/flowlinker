@@ -11,6 +11,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
   fullWidth?: boolean;
+  variant?: "primary" | "danger";
 }
 
 const BUTTON_ICON_SIZE = "1.75rem"; // 28px
@@ -39,6 +40,7 @@ const Button = ({
   leftIcon,
   rightIcon,
   type = "button",
+  variant = "primary",
   ...props
 }: ButtonProps) => {
   const processedLeftIcon = leftIcon ? processIcon(leftIcon) : null;
@@ -49,6 +51,7 @@ const Button = ({
       type={type}
       className={clsx(
         styles.button,
+        styles[variant],
         "body-sm",
         { [styles.fullWidth]: fullWidth },
         className

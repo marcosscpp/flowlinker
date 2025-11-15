@@ -1,0 +1,13 @@
+.badge {
+  align-items: center;
+  background-color: var(--color-indigo-100);
+  border-radius: 99px;
+  color: var(--color-indigo-900);
+  display: inline-flex;
+  gap: 0.625rem;
+  justify-content: center;
+  min-width: 3.25rem;
+  padding: 0.75rem 1.5rem;
+  text-align: center;
+  width: fit-content;
+}

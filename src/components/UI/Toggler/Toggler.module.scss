@@ -1,0 +1,55 @@
+.wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.label {
+  color: var(--color-gray-900);
+}
+
+.toggler {
+  position: relative;
+  width: 3rem;
+  height: 1.75rem;
+  border-radius: 999px;
+  border: none;
+  background-color: var(--color-gray-100);
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.25s ease, opacity 0.25s ease;
+
+  &:focus-visible {
+    outline: 2px solid var(--color-indigo-400);
+    outline-offset: 2px;
+  }
+}
+
+.knob {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background-color: var(--color-indigo-400);
+  transform: translateX(0);
+  transition: transform 0.25s ease, background-color 0.25s ease;
+}
+
+.checked {
+  background-color: var(--color-indigo-600);
+
+  .knob {
+    background-color: var(--color-gray-50);
+    transform: translateX(1.25rem);
+  }
+}
+
+.disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+
+  .toggler {
+    cursor: not-allowed;
+  }
+}

@@ -26,6 +26,23 @@ const extractErrorMessage = (error: AxiosError): string => {
   return error.message || "Erro na requisição";
 };
 
+const redirectToLogin = () => {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  const { pathname } = window.location;
+  if (!pathname.startsWith("/login")) {
+    window.location.href = "/login";
+  }
+};
+
+const handleAuthRedirect = (error: AxiosError) => {
+  if (error.response?.status === 401 || error.response?.status === 403) {
+    redirectToLogin();
+  }
+};
+
 const api = {
   get: async <T>(endpoint: string): Promise<T> => {
     try {
@@ -33,6 +50,7 @@ const api = {
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
+        handleAuthRedirect(error);
         throw new Error(extractErrorMessage(error));
       }
       throw error;
@@ -45,6 +63,33 @@ const api = {
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
+        handleAuthRedirect(error);
+        throw new Error(extractErrorMessage(error));
+      }
+      throw error;
+    }
+  },
+
+  patch: async <T>(endpoint: string, data?: unknown): Promise<T> => {
+    try {
+      const response = await axiosInstance.patch<T>(endpoint, data);
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        handleAuthRedirect(error);
+        throw new Error(extractErrorMessage(error));
+      }
+      throw error;
+    }
+  },
+
+  delete: async <T>(endpoint: string): Promise<T | void> => {
+    try {
+      const response = await axiosInstance.delete<T>(endpoint);
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        handleAuthRedirect(error);
         throw new Error(extractErrorMessage(error));
       }
       throw error;

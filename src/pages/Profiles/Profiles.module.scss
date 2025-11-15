@@ -1,3 +1,141 @@
 .container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
+.personasBadge {
+  align-self: flex-start;
+}
+
+.personasGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.personaCard {
+  background-color: var(--color-white);
+  border-radius: 0.75rem;
+  box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.05);
+  padding: 1.875rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.personaHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.personaName {
+  color: var(--color-gray-900);
+}
+
+.platformBadge {
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  color: var(--color-white);
+
+  svg {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+.platform-facebook {
+  background: var(--gradient-facebook);
+}
+
+.platform-instagram {
+  background: var(--gradient-instagram);
+}
+
+.personaInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.personaInfoItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-gray-600);
+}
+
+.personaActions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.875rem;
+  border-top: 1px solid var(--color-indigo-100);
+  margin-top: 1.5rem;
+  padding: 1.875rem 1.25rem 0;
+}
+
+.personaActionEdit,
+.personaActionDelete {
+  flex: 1;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.personaActionEdit {
+  color: var(--color-indigo-600);
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--color-indigo-800);
+  }
+}
+
+.personaActionDelete {
+  color: var(--color-red-500);
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--color-red-600);
+  }
+}
+
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.modalField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  color: var(--color-gray-900);
+
+  select {
+    width: 100%;
+    border: 1px solid var(--color-gray-100);
+    border-radius: 0.5rem;
+    padding: 0.85rem 1rem;
+    font-size: 1rem;
+    color: var(--color-gray-900);
+    background-color: var(--color-white);
+    transition: border-color 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-indigo-400);
+      box-shadow: 0 0 0 2px rgba(98, 40, 215, 0.15);
+    }
+  }
+}

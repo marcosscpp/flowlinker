@@ -18,8 +18,21 @@
     opacity: 0.7;
   }
 
+}
+
+.primary {
+  background: var(--color-indigo-600);
+
   &:hover {
-    background: var(--color-indigo-900);
+    background: var(--color-indigo-800);
+  }
+}
+
+.danger {
+  background: var(--color-red-500);
+
+  &:hover {
+    background: var(--color-red-600);
   }
 }
 

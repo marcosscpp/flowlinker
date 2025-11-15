@@ -49,7 +49,9 @@ export const colors = {
     "600": "#EE2A7B",
   },
   yellow: {
+    "200": "#E3E33B",
     "300": "#F9CE34",
+    "400": "#C9CF1C",
   },
 
   // Gradients

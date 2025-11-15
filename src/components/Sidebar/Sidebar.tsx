@@ -86,7 +86,6 @@ const Sidebar = () => {
               to="/dispositivos"
               status={isActive("/dispositivos") ? "active" : "default"}
               isExpanded={true}
-              badgeValue={3}
               traillingIcon={<SidebarIcon icon={LaptopPhoneSyncFreeIcons} />}
             >
               <span>Dispositivos</span>
