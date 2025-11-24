@@ -52,22 +52,32 @@ const Home = () => {
     useQuery({
       queryKey: ["activeAccounts"],
       queryFn: () => socialMediaAccountsService.getActiveCount(),
-      staleTime: 1000 * 60 * 5, // 5 minutes
+      refetchOnMount: true,
+      refetchOnWindowFocus: true,
     });
 
   const { data: shareMetricsData, isLoading: loadingShares } = useQuery({
     queryKey: ["shareMetrics", 24],
     queryFn: () => metricsService.getShares({ hours: 24 }),
-    staleTime: 1000 * 60, // 1 minute
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
   });
 
   const { data: peopleReachedData, isLoading: loadingPeopleReached } = useQuery(
     {
       queryKey: ["peopleReached", 24],
       queryFn: () => metricsService.getPeopleReached({ hours: 24 }),
-      staleTime: 1000 * 60, // 1 minute
+      refetchOnMount: true,
+      refetchOnWindowFocus: true,
     }
   );
+
+  const { data: errorsData, isLoading: loadingErrors } = useQuery({
+    queryKey: ["errorsMetrics", 24],
+    queryFn: () => metricsService.getErrors({ hours: 24 }),
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
+  });
 
   const isLoading = loadingCustomer && !customerData;
   const hasData = customerData;
@@ -162,7 +172,11 @@ const Home = () => {
               loading={loadingPeopleReached}
               tooltip="O cálculo é feito com base na quantidade de pessoas por grupo multiplicada pela quantidade de compartilhamentos em um período de 24 horas."
             />
-            <KpiCard label="Taxa de erros nas ações" value="0.12%" />
+            <KpiCard
+              label="Erros nas últimas 24 horas"
+              value={errorsData?.errors ?? 0}
+              loading={loadingErrors}
+            />
           </div>
 
           <div className={styles.activitiesCard}>

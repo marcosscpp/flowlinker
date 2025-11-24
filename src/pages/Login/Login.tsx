@@ -15,6 +15,7 @@ import { Mail02Icon, SquareLock02Icon } from "@hugeicons/core-free-icons";
 import { loginSchema, type LoginSchema } from "./login.schema";
 import { useAuth } from "@/context";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();

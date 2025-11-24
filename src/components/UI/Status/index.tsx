@@ -21,7 +21,7 @@ const Status = ({
       {...props}
     >
       <span className={styles.dot} aria-hidden />
-      <span className="body-sm-semibold">{label}</span>
+      <span className={clsx("support-text", styles.label)}>{label}</span>
     </span>
   );
 };

@@ -1,13 +1,5 @@
 import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
-import {
-  Home,
-  Login,
-  Stats,
-  Billing,
-  Profiles,
-  AI,
-  Devices,
-} from "@/pages";
+import { Home, Login, Stats, Billing, Profiles, AI, Devices, ForgotPassword, ResetPassword } from "@/pages";
 import { AuthProvider } from "@/context";
 import { SidebarView, PrivateRoute, PublicRoute } from "@/components";
 
@@ -32,6 +24,22 @@ function App() {
             element={
               <PublicRoute>
                 <Login />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/esqueci-senha"
+            element={
+              <PublicRoute>
+                <ForgotPassword />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/redefinir-senha"
+            element={
+              <PublicRoute>
+                <ResetPassword />
               </PublicRoute>
             }
           />

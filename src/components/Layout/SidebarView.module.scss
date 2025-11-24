@@ -8,8 +8,20 @@
   top: 0;
   height: 100vh;
   flex-shrink: 0;
-  min-width: 22rem;
   position: sticky;
+  transition: width 0.3s ease-in-out;
+  z-index: 1000;
+
+  &.expanded {
+    min-width: 22rem;
+    @media (max-width: 720px) {
+      position: absolute;
+    }
+  }
+
+  &.collapsed {
+    width: auto;
+  }
 }
 
 .main {
@@ -20,4 +32,18 @@
   overflow-y: auto;
   flex-direction: column;
   gap: 2.5rem;
+  transition: padding-left 0.3s ease-in-out;
+}
+
+@media (max-width: 1240px) {
+  .main {
+    padding: 3rem;
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 480px) {
+  .main {
+    padding: 2rem;
+  }
 }

@@ -1,5 +1,11 @@
 html {
-  font-size: 87.5%; /* 14px = 1rem (mobile) */
+  font-size: 62.5%; /* 10px = 1rem (mobile) */
+}
+
+@media (min-width: 720px) {
+  html {
+    font-size: 87.5%; /* 14px = 1rem (mobile) */
+  }
 }
 
 @media (min-width: 768px) {

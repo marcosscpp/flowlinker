@@ -70,6 +70,19 @@ const api = {
     }
   },
 
+  put: async <T>(endpoint: string, data?: unknown): Promise<T> => {
+    try {
+      const response = await axiosInstance.put<T>(endpoint, data);
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        handleAuthRedirect(error);
+        throw new Error(extractErrorMessage(error));
+      }
+      throw error;
+    }
+  },
+
   patch: async <T>(endpoint: string, data?: unknown): Promise<T> => {
     try {
       const response = await axiosInstance.patch<T>(endpoint, data);

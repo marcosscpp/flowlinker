@@ -6,3 +6,5 @@ export { default as Billing } from "@/pages/Billing/Billing";
 export { default as Profiles } from "@/pages/Profiles/Profiles";
 export { default as AI } from "@/pages/AI/AI";
 export { default as Devices } from "@/pages/Devices/Devices";
+export { default as ForgotPassword } from "@/pages/ForgotPassword/ForgotPassword";
+export { default as ResetPassword } from "@/pages/ResetPassword/ResetPassword";

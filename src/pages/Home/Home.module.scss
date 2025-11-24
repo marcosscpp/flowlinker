@@ -2,6 +2,10 @@
   display: grid;
   gap: 2.5rem;
   grid-template-columns: 2fr 1fr;
+
+  @media (max-width: 1240px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .mainStack {
@@ -17,8 +21,12 @@
 
 .kpiGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(18.75rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
   gap: 0.625rem;
+
+  @media (max-width: 720px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .info {
@@ -26,6 +34,10 @@
   gap: 1.25rem;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   width: 100%;
+
+  @media (max-width: 720px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .infoCard {
@@ -130,9 +142,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 2rem;
+  gap: 1rem 2rem;
   padding: 1.5rem 0.625rem;
   border-bottom: 0.0625rem solid var(--color-gray-100);
+
+  @media (max-width: 940px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 
 .activitiesList li:last-child {

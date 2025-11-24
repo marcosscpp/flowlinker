@@ -1,4 +1,5 @@
 import { HugeiconsIcon } from "@hugeicons/react";
+import clsx from "clsx";
 import {
   Home09Icon,
   CreditCardIcon,
@@ -7,12 +8,15 @@ import {
   LaptopPhoneSyncFreeIcons,
   SparklesIcon,
   LogoutSquare01Icon,
+  ArrowLeft01Icon,
+  ArrowRight01Icon,
 } from "@hugeicons/core-free-icons";
 import SidebarItem from "../UI/SidebarItem";
 import Button from "../UI/Button";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/context";
 import FlowlinkerLogo from "@/assets/flowlinker-logo.svg";
+import FlowlinkerIcon from "@/assets/flowlinker-favicon.svg";
 import styles from "./Sidebar.module.scss";
 
 const ICON_SIZE = "2rem"; // 32px
@@ -21,7 +25,12 @@ const SidebarIcon = ({ icon }: { icon: typeof Home09Icon }) => (
   <HugeiconsIcon icon={icon} size={ICON_SIZE} />
 );
 
-const Sidebar = () => {
+interface SidebarProps {
+  isExpanded?: boolean;
+  onToggle?: () => void;
+}
+
+const Sidebar = ({ isExpanded = true, onToggle }: SidebarProps) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { logout } = useAuth();
@@ -35,13 +44,33 @@ const Sidebar = () => {
 
   return (
     <div className={styles.container}>
+      <button
+        type="button"
+        className={styles.toggleButton}
+        onClick={onToggle}
+        aria-label={isExpanded ? "Colapsar sidebar" : "Expandir sidebar"}
+      >
+        <HugeiconsIcon
+          icon={isExpanded ? ArrowLeft01Icon : ArrowRight01Icon}
+          size="1.5rem"
+        />
+      </button>
+
       <div>
         <div className={styles.logo}>
-          <img
-            src={FlowlinkerLogo}
-            alt="Flowlinker Logo"
-            className={styles.logoImage}
-          />
+          {isExpanded ? (
+            <img
+              src={FlowlinkerLogo}
+              alt="Flowlinker Logo"
+              className={styles.logoImage}
+            />
+          ) : (
+            <img
+              src={FlowlinkerIcon}
+              alt="Flowlinker Icon"
+              className={styles.iconImage}
+            />
+          )}
         </div>
 
         <nav className={styles.nav}>
@@ -49,7 +78,7 @@ const Sidebar = () => {
             <SidebarItem
               to="/"
               status={isActive("/") ? "active" : "default"}
-              isExpanded={true}
+              isExpanded={isExpanded}
               traillingIcon={<SidebarIcon icon={Home09Icon} />}
             >
               <span>Início</span>
@@ -58,7 +87,7 @@ const Sidebar = () => {
             <SidebarItem
               to="/pagamentos"
               status={isActive("/pagamentos") ? "active" : "default"}
-              isExpanded={true}
+              isExpanded={isExpanded}
               traillingIcon={<SidebarIcon icon={CreditCardIcon} />}
             >
               <span>Pagamentos</span>
@@ -67,7 +96,7 @@ const Sidebar = () => {
             <SidebarItem
               to="/estatisticas"
               status={isActive("/estatisticas") ? "active" : "default"}
-              isExpanded={true}
+              isExpanded={isExpanded}
               traillingIcon={<SidebarIcon icon={Analytics01Icon} />}
             >
               <span>Estatísticas</span>
@@ -76,7 +105,7 @@ const Sidebar = () => {
             <SidebarItem
               to="/personas"
               status={isActive("/personas") ? "active" : "default"}
-              isExpanded={true}
+              isExpanded={isExpanded}
               traillingIcon={<SidebarIcon icon={UserMultiple03Icon} />}
             >
               <span>Personas</span>
@@ -85,7 +114,7 @@ const Sidebar = () => {
             <SidebarItem
               to="/dispositivos"
               status={isActive("/dispositivos") ? "active" : "default"}
-              isExpanded={true}
+              isExpanded={isExpanded}
               traillingIcon={<SidebarIcon icon={LaptopPhoneSyncFreeIcons} />}
             >
               <span>Dispositivos</span>
@@ -96,7 +125,7 @@ const Sidebar = () => {
               status={
                 isActive("/inteligencia-artificial") ? "active" : "default"
               }
-              isExpanded={true}
+              isExpanded={isExpanded}
               traillingIcon={<SidebarIcon icon={SparklesIcon} />}
             >
               <span>IA</span>
@@ -108,11 +137,11 @@ const Sidebar = () => {
       <Button
         type="button"
         onClick={handleLogout}
-        className={styles.logoutButton}
+        className={clsx(styles.logoutButton, !isExpanded && styles.center)}
         leftIcon={<HugeiconsIcon icon={LogoutSquare01Icon} />}
         fullWidth={true}
       >
-        Sair
+        {isExpanded ? "Sair" : ""}
       </Button>
     </div>
   );

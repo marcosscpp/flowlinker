@@ -4,7 +4,15 @@ import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import styles from "./Devices.module.scss";
-import { PageHeader, Badge, Toggler } from "@/components";
+import {
+  PageHeader,
+  Badge,
+  Toggler,
+  Modal,
+  ModalGhostButton,
+  Button,
+  Field,
+} from "@/components";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { PencilEdit02Icon } from "@hugeicons/core-free-icons";
 import {
@@ -97,6 +105,10 @@ const buildDeviceInfo = (device: DeviceResponse) => {
 const Devices = () => {
   const queryClient = useQueryClient();
   const [pendingToggleId, setPendingToggleId] = useState<number | null>(null);
+  const [deviceToRename, setDeviceToRename] = useState<DeviceResponse | null>(
+    null
+  );
+  const [newDeviceName, setNewDeviceName] = useState("");
 
   const {
     data: devicesData,
@@ -150,6 +162,41 @@ const Devices = () => {
       queryClient.invalidateQueries({ queryKey: DEVICE_COUNTS_QUERY_KEY });
     },
   });
+
+  const updateNameMutation = useMutation({
+    mutationFn: ({ id, name }: { id: number; name: string }) =>
+      devicesService.updateName(id, { name }),
+    onSuccess: (updatedDevice) => {
+      queryClient.setQueryData<DeviceResponse[]>(
+        DEVICES_QUERY_KEY,
+        (current = []) =>
+          current.map((device) =>
+            device.id === updatedDevice.id ? updatedDevice : device
+          )
+      );
+      queryClient.invalidateQueries({ queryKey: DEVICES_QUERY_KEY });
+      closeRenameModal();
+    },
+  });
+
+  const openRenameModal = (device: DeviceResponse) => {
+    setDeviceToRename(device);
+    setNewDeviceName(device.name || "");
+  };
+
+  const closeRenameModal = () => {
+    setDeviceToRename(null);
+    setNewDeviceName("");
+  };
+
+  const handleRenameSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!deviceToRename || !newDeviceName.trim()) return;
+    updateNameMutation.mutate({
+      id: deviceToRename.id,
+      name: newDeviceName.trim(),
+    });
+  };
 
   const devices = devicesData ?? [];
 
@@ -209,6 +256,13 @@ const Devices = () => {
           const isUpdating = pendingToggleId === device.id;
           const deviceInfo = buildDeviceInfo(device);
 
+          const isLimitReached =
+            devicesCounts &&
+            devicesCounts.active >= devicesCounts.allowed &&
+            !isActive;
+
+          const isTogglerDisabled = isUpdating || isLimitReached;
+
           return (
             <article key={device.id} className={styles.deviceCard}>
               <div className={styles.deviceStatus}>
@@ -238,14 +292,17 @@ const Devices = () => {
                 <button
                   type="button"
                   className={styles.actionButton}
-                  aria-label={`Editar ${device.name}`}
+                  aria-label={`Renomear ${device.name}`}
+                  onClick={() => openRenameModal(device)}
                 >
                   <HugeiconsIcon icon={PencilEdit02Icon} size="2rem" />
                 </button>
                 <Toggler
                   checked={isActive}
-                  disabled={isUpdating}
+                  disabled={isTogglerDisabled}
                   onChange={() => {
+                    if (isLimitReached) return;
+
                     const nextStatus: DeviceStatus = isActive
                       ? "INACTIVE"
                       : "ACTIVE";
@@ -260,6 +317,45 @@ const Devices = () => {
           );
         })}
       </div>
+
+      <Modal
+        isOpen={Boolean(deviceToRename)}
+        onClose={closeRenameModal}
+        title="Renomear dispositivo"
+        footer={
+          <>
+            <ModalGhostButton
+              onClick={closeRenameModal}
+              disabled={updateNameMutation.isPending}
+            >
+              Cancelar
+            </ModalGhostButton>
+            <Button
+              type="submit"
+              form="rename-device-form"
+              isLoading={updateNameMutation.isPending}
+              disabled={updateNameMutation.isPending}
+            >
+              Salvar
+            </Button>
+          </>
+        }
+      >
+        <form
+          id="rename-device-form"
+          onSubmit={handleRenameSubmit}
+          className={styles.modalForm}
+        >
+          <Field
+            label="Nome do dispositivo"
+            name="name"
+            value={newDeviceName}
+            onChange={(e) => setNewDeviceName(e.target.value)}
+            placeholder="Ex: Notebook Principal"
+            required
+          />
+        </form>
+      </Modal>
     </section>
   );
 };

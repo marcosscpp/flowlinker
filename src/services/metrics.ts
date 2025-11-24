@@ -44,6 +44,7 @@ const METRICS_ENDPOINT = {
   RECENT: "/metrics/recent",
   SHARES: "/metrics/shares",
   PEOPLE_REACHED: "/metrics/people-reached",
+  ERRORS: "/metrics/errors",
 } as const;
 
 type GetRecentParams = {
@@ -55,6 +56,10 @@ type GetSharesParams = {
 };
 
 type GetPeopleReachedParams = {
+  hours?: number;
+};
+
+type GetErrorsParams = {
   hours?: number;
 };
 
@@ -114,5 +119,27 @@ export const metricsService = {
     const endpoint = `${METRICS_ENDPOINT.PEOPLE_REACHED}?${queryString}`;
 
     return api.get<PeopleReachedResponse>(endpoint);
+  },
+
+  getErrors: async (
+    params: GetErrorsParams = {}
+  ): Promise<{
+    errors: number;
+    referenceActions: number;
+    errorRate: number;
+    hours?: number;
+  }> => {
+    const searchParams = new URLSearchParams();
+    const hours = typeof params.hours === "number" ? params.hours : 24;
+    searchParams.append("hours", String(hours));
+
+    const queryString = searchParams.toString();
+    const endpoint = `${METRICS_ENDPOINT.ERRORS}?${queryString}`;
+
+    return api.get<{
+      errors: number;
+      referenceActions: number;
+      errorRate: number;
+    }>(endpoint);
   },
 };

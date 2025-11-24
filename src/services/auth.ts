@@ -11,10 +11,22 @@ export interface AuthUser {
   email: string;
 }
 
+export interface ForgotPasswordPayload {
+  email: string;
+  redirectBaseUrl: string;
+}
+
+export interface ResetPasswordPayload {
+  token: string;
+  newPassword: string;
+}
+
 const AUTH_ENDPOINT = {
   LOGIN: "/auth/login",
   ME: "/auth/me",
   LOGOUT: "/auth/logout",
+  PASSWORD_FORGOT: "/auth/password/forgot",
+  PASSWORD_RESET: "/auth/password/reset",
 } as const;
 
 export const authService = {
@@ -37,5 +49,13 @@ export const authService = {
 
   logout: async () => {
     await api.post<void>(AUTH_ENDPOINT.LOGOUT);
+  },
+
+  requestPasswordReset: async (payload: ForgotPasswordPayload) => {
+    await api.post<void>(AUTH_ENDPOINT.PASSWORD_FORGOT, payload);
+  },
+
+  resetPassword: async (payload: ResetPasswordPayload) => {
+    await api.post<void>(AUTH_ENDPOINT.PASSWORD_RESET, payload);
   },
 };

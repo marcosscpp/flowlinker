@@ -33,7 +33,10 @@
   --color-red-800: #711c1c;
 
   /* Semantic Colors - Green */
+  --color-green-50: #eafaf1;
+  --color-green-100: #d4f5e3;
   --color-green-300: #2aaf5d;
+  --color-green-400: #269e54;
   --color-green-500: #1f8641;
 
   /* Social Media Colors - Blue */
@@ -47,11 +50,11 @@
   --color-pink-600: #ee2a7b;
 
   /* Social Media Colors - Yellow */
-  --color-yellow-200: #e3e33b;
+  --color-yellow-100: #eee19b;
+  --color-yellow-200: #e3d83b;
   --color-yellow-300: #f9ce34;
-  --color-yellow-400: #c9cf1c;
+  --color-yellow-400: #cfbd1c;
 
-  /* Gradients - Referenciando variáveis de cores */
   --gradient-facebook: linear-gradient(
     90deg,
     var(--color-blue-500) 0%,

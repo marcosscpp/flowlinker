@@ -8,6 +8,11 @@
   font-weight: 600;
 }
 
+.label {
+  color: var(--color-gray-900);
+  line-height: 100%;
+}
+
 .dot {
   width: 0.75rem;
   height: 0.75rem;
@@ -17,19 +22,19 @@
 }
 
 .success {
-  border-color: var(--color-green-500);
-  background-color: var(--color-green-300);
+  border-color: var(--color-green-300);
+  background-color: var(--color-green-50);
   color: var(--color-green-500);
 }
 
 .warning {
   border-color: var(--color-yellow-400);
-  background-color: var(--color-yellow-200);
+  background-color: var(--color-yellow-300);
   color: var(--color-yellow-400);
 }
 
 .danger {
-  border-color: var(--color-red-800);
-  background-color: var(--color-red-600);
+  border-color: var(--color-red-500);
+  background-color: var(--color-red-50);
   color: var(--color-red-800);
 }

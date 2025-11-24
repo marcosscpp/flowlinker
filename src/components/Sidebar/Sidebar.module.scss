@@ -7,10 +7,43 @@
   width: 100%;
   background-color: var(--color-white);
   box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.1);
+  transition: width 0.3s ease-in-out;
+  position: relative;
+}
+
+.toggleButton {
+  position: absolute;
+  top: 1.5rem;
+  right: -1.25rem;
+  z-index: 10;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-gray-300);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  color: var(--color-gray-700);
+
+  &:hover {
+    background-color: var(--color-gray-50);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
 }
 
 .logo {
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .logoImage {
@@ -19,6 +52,15 @@
   height: auto;
   padding: 0.625rem;
   width: 100%;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.iconImage {
+  width: 4rem;
+  height: 4rem;
+  margin: 0 auto;
+  transition: opacity 0.3s ease-in-out;
+  display: block;
 }
 
 .nav {
@@ -37,4 +79,17 @@
 
 .logoutButton {
   flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .toggleButton {
+    top: 1rem;
+    right: -1rem;
+    width: 2rem;
+    height: 2rem;
+  }
 }

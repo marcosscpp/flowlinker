@@ -8,7 +8,10 @@ export { devicesService } from "@/services/devices";
 export { billingService } from "@/services/billing";
 export type { LatestReleaseResponse } from "@/services/appReleases";
 export type { CustomerNameResponse } from "@/services/customer";
-export type { SocialMediaAccountResponse } from "@/services/socialMediaAccounts";
+export type {
+  SocialMediaAccountResponse,
+  SocialCategoryResponse,
+} from "@/services/socialMediaAccounts";
 export type {
   DeviceResponse,
   DevicesCountsResponse,

@@ -71,7 +71,11 @@ const KpiCard = ({
           aria-label={tooltip}
           role="button"
         >
-          <HugeiconsIcon icon={InformationCircleIcon} size={24} />
+          <HugeiconsIcon
+            icon={InformationCircleIcon}
+            size={24}
+            className={styles.infoIcon}
+          />
           <span className={clsx("support-text", styles.tooltip)}>
             {tooltip}
           </span>

@@ -4,16 +4,25 @@
   justify-content: center;
   min-height: 100vh;
   padding: 1.875rem;
+
+  @media (max-width: 1200px) {
+    padding: 0;
+  }
 }
 
 .box {
   background-color: var(--color-white);
-  border-radius: 1.25rem;
+  border-radius: 3rem;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1.25rem;
+  gap: 0 1.25rem;
   justify-content: center;
   width: 100%;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: 1fr;
+    border-radius: 0;
+  }
 }
 
 $ilustration-padding: 1.25rem;
@@ -21,6 +30,11 @@ $ilustration-padding: 1.25rem;
   padding: $ilustration-padding;
   position: relative;
   padding-right: 0;
+
+  @media (max-width: 1200px) {
+    order: 2;
+    padding-right: $ilustration-padding;
+  }
 }
 
 $icon-position: 1.5rem + $ilustration-padding;
@@ -45,6 +59,14 @@ $icon-position: 1.5rem + $ilustration-padding;
   flex-direction: column;
   gap: 5rem;
   grid-column: 3 / span 4;
+
+  @media (max-width: 1200px) {
+    gap: 2.5rem;
+  }
+
+  @media (max-width: 720px) {
+    grid-column: 1 / span 8;
+  }
 }
 
 .grid {
@@ -52,6 +74,10 @@ $icon-position: 1.5rem + $ilustration-padding;
   grid-template-columns: repeat(8, 1fr);
   width: 100%;
   padding: 3.75rem 0;
+
+  @media (max-width: 720px) {
+    padding: 3rem 2rem;
+  }
 }
 
 .form {
@@ -91,4 +117,8 @@ $icon-position: 1.5rem + $ilustration-padding;
 
 .footer {
   margin-top: auto;
+
+  @media (max-width: 720px) {
+    margin-top: 0;
+  }
 }

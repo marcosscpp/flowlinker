@@ -31,6 +31,7 @@ const DEVICES_ENDPOINT = {
   LIST: "/devices/mine",
   COUNTS: "/devices/mine/counts",
   STATUS: (deviceId: number) => `/devices/${deviceId}/status`,
+  NAME: (deviceId: number) => `/devices/${deviceId}/name`,
 } as const;
 
 type ListParams = {
@@ -39,6 +40,10 @@ type ListParams = {
 
 type UpdateStatusPayload = {
   status: DeviceStatus;
+};
+
+type UpdateNamePayload = {
+  name: string;
 };
 
 export const devicesService = {
@@ -63,5 +68,12 @@ export const devicesService = {
     payload: UpdateStatusPayload
   ): Promise<void> => {
     await api.patch(DEVICES_ENDPOINT.STATUS(deviceId), payload);
+  },
+
+  updateName: async (
+    deviceId: number,
+    payload: UpdateNamePayload
+  ): Promise<DeviceResponse> => {
+    return api.patch<DeviceResponse>(DEVICES_ENDPOINT.NAME(deviceId), payload);
   },
 };

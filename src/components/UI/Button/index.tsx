@@ -62,7 +62,7 @@ const Button = ({
         <span className={styles.icon}>{processedLeftIcon}</span>
       ) : null}
 
-      <span className={styles.text}>{children}</span>
+      {children && <span className={styles.text}>{children}</span>}
 
       {processedRightIcon ? (
         <span className={styles.icon}>{processedRightIcon}</span>
