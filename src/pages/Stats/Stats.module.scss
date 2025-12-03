@@ -1,3 +1,44 @@
 .container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+:global(.header) {
+  @media (min-width: 1081px) {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 2rem;
+  }
+}
+
+.periodFilter {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  min-width: 200px;
+}
+
+.periodSelect {
+  min-width: 200px;
+}
+
+.chartsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.chartCard {
+  width: 100%;
+}
+
+.chartCardFull {
+  width: 100%;
+  grid-column: 1 / -1;
 }
 

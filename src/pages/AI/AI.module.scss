@@ -1,3 +1,341 @@
 .container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
+.formCard {
+  background-color: var(--color-white);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 45rem;
+}
+
+.formHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+
+  h2 {
+    color: var(--color-gray-900);
+    margin: 0;
+  }
+
+  p {
+    color: var(--color-gray-600);
+    margin: 0;
+  }
+}
+
+.sparklesIcon {
+  color: var(--color-indigo-600);
+  flex-shrink: 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.textareaField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  label {
+    color: var(--color-gray-900);
+  }
+}
+
+.textarea {
+  font-family: var(--font-montserrat);
+  font-size: 0.875rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-gray-300);
+  border-radius: 0.5rem;
+  resize: vertical;
+  min-height: 6rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  color: var(--color-gray-900);
+  background-color: var(--color-white);
+
+  &::placeholder {
+    color: var(--color-gray-400);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-indigo-500);
+    box-shadow: 0 0 0 3px rgba(93, 33, 255, 0.1);
+  }
+}
+
+.errorMessage {
+  background-color: var(--color-red-50);
+  border: 1px solid var(--color-red-300);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+
+  p {
+    color: var(--color-red-600);
+    margin: 0;
+  }
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+
+  p {
+    color: var(--color-gray-600);
+    text-align: center;
+  }
+}
+
+/* Results Section */
+.resultsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.resultsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  background-color: var(--color-white);
+  border-radius: 0.75rem;
+  padding: 1rem 1.5rem;
+}
+
+.resultsInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--color-gray-900);
+}
+
+.dateBadge {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background-color: var(--color-gray-50);
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  color: var(--color-gray-600);
+}
+
+.messageCard {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: linear-gradient(135deg, var(--color-indigo-100) 0%, var(--color-indigo-200) 100%);
+  border-radius: 0.75rem;
+  padding: 1.25rem 1.5rem;
+
+  p {
+    color: var(--color-indigo-900);
+    margin: 0;
+  }
+}
+
+.dicasGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: 1.5rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Instagram Post Mockup */
+.postMockup {
+  background-color: var(--color-white);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 1px solid var(--color-gray-100);
+}
+
+.postHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--color-gray-100);
+}
+
+.postUser {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--gradient-instagram);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-white);
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.username {
+  font-family: var(--font-montserrat);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-gray-900);
+}
+
+.postType {
+  font-family: var(--font-montserrat);
+  font-size: 0.75rem;
+  color: var(--color-gray-500);
+}
+
+.moreButton {
+  background: none;
+  border: none;
+  padding: 0.25rem;
+  color: var(--color-gray-600);
+  border-radius: 50%;
+}
+
+.postContent {
+  position: relative;
+  aspect-ratio: 1;
+  background: linear-gradient(
+    135deg,
+    var(--color-gray-50) 0%,
+    var(--color-gray-100) 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contentPlaceholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--color-gray-600);
+
+  h4 {
+    color: var(--color-gray-900);
+    margin: 0;
+  }
+
+  p {
+    color: var(--color-gray-600);
+    margin: 0;
+    max-width: 90%;
+    line-height: 1.5;
+  }
+}
+
+.formatBadge {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: var(--color-white);
+  padding: 0.375rem 0.75rem;
+  border-radius: 1rem;
+  font-family: var(--font-montserrat);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.postActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+}
+
+.actionsLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.actionButton {
+  background: none;
+  border: none;
+  padding: 0.25rem;
+  color: var(--color-gray-800);
+  border-radius: 0.25rem;
+}
+
+.postCaption {
+  padding: 0 1rem 0.75rem;
+
+  p {
+    margin: 0;
+    font-family: var(--font-montserrat);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+}
+
+.captionUsername {
+  font-weight: 600;
+  color: var(--color-gray-900);
+}
+
+.captionText {
+  color: var(--color-indigo-600);
+  word-break: break-word;
+}
+
+.postMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background-color: var(--color-gray-50);
+  border-top: 1px solid var(--color-gray-100);
+}
+
+.metaInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-family: var(--font-montserrat);
+  font-size: 0.75rem;
+  color: var(--color-gray-600);
+}
+
+.trendBadge {
+  background: linear-gradient(135deg, var(--color-indigo-500) 0%, var(--color-indigo-600) 100%);
+  color: var(--color-white);
+  padding: 0.25rem 0.625rem;
+  border-radius: 1rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+}

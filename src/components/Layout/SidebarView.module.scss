@@ -1,6 +1,7 @@
 .container {
   display: flex;
   width: 100%;
+  min-height: 100vh;
   position: relative;
 }
 
@@ -9,14 +10,11 @@
   height: 100vh;
   flex-shrink: 0;
   position: sticky;
-  transition: width 0.3s ease-in-out;
+  transition: width 0.3s ease-in-out, transform 0.3s ease-in-out;
   z-index: 1000;
 
   &.expanded {
-    min-width: 22rem;
-    @media (max-width: 720px) {
-      position: absolute;
-    }
+    width: 22rem;
   }
 
   &.collapsed {
@@ -24,26 +22,77 @@
   }
 }
 
+.overlay {
+  display: none;
+}
+
 .main {
   background-color: var(--color-gray-50);
   display: flex;
-  padding: 7.5rem;
+  padding: 5rem;
   flex: 1;
+  min-width: 0;
   overflow-y: auto;
   flex-direction: column;
-  gap: 2.5rem;
-  transition: padding-left 0.3s ease-in-out;
+  transition: padding 0.3s ease-in-out;
 }
 
+/* Tablet */
 @media (max-width: 1240px) {
-  .main {
-    padding: 3rem;
-    overflow: hidden;
-  }
-}
-
-@media (max-width: 480px) {
   .main {
     padding: 2rem;
   }
 }
+
+/* Mobile */
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    width: 80vw;
+    max-width: 20rem;
+
+    &.expanded {
+      transform: translateX(0);
+    }
+
+    &.collapsed {
+      transform: translateX(-100%);
+    }
+  }
+
+  .overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+
+    &.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  .main {
+    padding: 1.5rem;
+    padding-top: 5.5rem;
+    width: 100%;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .main {
+    padding: 1rem;
+    padding-top: 5rem;
+  }
+}
+

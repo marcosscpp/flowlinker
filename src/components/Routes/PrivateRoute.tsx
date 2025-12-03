@@ -11,7 +11,7 @@ const PrivateRoute = ({ children }: PrivateRouteProps) => {
   const { isAuthenticated, isLoading } = useAuth();
 
   if (isLoading) {
-    return <FullScreenLoader />;
+    return <FullScreenLoader variant="fixed" />;
   }
 
   if (!isAuthenticated) {

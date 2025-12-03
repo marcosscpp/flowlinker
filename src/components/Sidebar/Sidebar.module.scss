@@ -4,11 +4,16 @@
   height: 100%;
   justify-content: space-between;
   padding: 1.875rem;
+  gap: 4rem;
   width: 100%;
   background-color: var(--color-white);
   box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.1);
   transition: width 0.3s ease-in-out;
   position: relative;
+
+  @media (max-width: 1240px) {
+    justify-content: flex-start;
+  }
 }
 
 .toggleButton {
@@ -66,6 +71,7 @@
 .nav {
   flex: 1;
   margin-top: 2rem;
+  overflow-y: auto;
 }
 
 .navList {
@@ -81,15 +87,40 @@
   flex-shrink: 0;
 }
 
+/* Tablet */
+@media (max-width: 1240px) {
+  .container {
+    padding: 1.5rem;
+  }
+}
+
+/* Mobile */
 @media (max-width: 768px) {
   .container {
-    padding: 1rem;
+    padding: 1.25rem;
   }
 
   .toggleButton {
     top: 1rem;
-    right: -1rem;
-    width: 2rem;
-    height: 2rem;
+    right: 1rem;
+    left: auto;
+    position: absolute;
+  }
+
+  .logoImage {
+    max-width: 10rem;
+  }
+
+  .iconImage {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .nav {
+    margin-top: 1.5rem;
+  }
+
+  .navList {
+    gap: 0.5rem;
   }
 }

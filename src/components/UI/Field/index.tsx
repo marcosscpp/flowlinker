@@ -14,7 +14,8 @@ type AllowedInputType =
   | "search"
   | "tel"
   | "text"
-  | "url";
+  | "url"
+  | "date";
 
 export interface BaseInputProps
   extends Omit<

@@ -73,19 +73,7 @@ export class ActivityLogFormatter {
   }
 
   private static resolveDescription(item: MetricLogItem): string {
-    const verb = ActivityLogFormatter.resolveVerb(item);
-    const target = item.groupName ?? item.payload?.account;
-    if (verb && target) {
-      return `${verb} em "${target}"`;
-    }
-    if (verb) {
-      return verb;
-    }
-    const cleaned =
-      item.text?.replace(/^Evento recebido\s*\((.*)\)$/i, "$1") ??
-      item.text ??
-      "Executou uma ação";
-    return cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
+    return item.text ?? "Executou uma ação";
   }
 
   private static resolvePlatform(item: MetricLogItem) {

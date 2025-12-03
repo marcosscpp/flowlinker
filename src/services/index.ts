@@ -6,6 +6,7 @@ export { metricsService } from "@/services/metrics";
 export { socialMediaAccountsService } from "@/services/socialMediaAccounts";
 export { devicesService } from "@/services/devices";
 export { billingService } from "@/services/billing";
+export { dicasPostService } from "@/services/dicasPost";
 export type { LatestReleaseResponse } from "@/services/appReleases";
 export type { CustomerNameResponse } from "@/services/customer";
 export type {
@@ -19,3 +20,19 @@ export type {
   DeviceConnectionStatus,
 } from "@/services/devices";
 export type { BillingPortalResponse } from "@/services/billing";
+export type {
+  MetricLogItem,
+  RecentMetricsResponse,
+  SharesMetricsResponse,
+  PeopleReachedResponse,
+  PersonasRankingItem,
+  PersonasRankingResponse,
+  HeatmapItem,
+  HeatmapResponse,
+  DistributionSocialResponse,
+} from "@/services/metrics";
+export type {
+  DicaPostRequest,
+  DicaPostResponse,
+  Dica,
+} from "@/services/dicasPost";

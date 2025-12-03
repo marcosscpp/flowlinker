@@ -1,0 +1,40 @@
+.container {
+  width: 100%;
+  background: var(--color-white);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  display: flex;    
+  flex-direction: column;
+  gap: 0.625rem;
+  height: 100%;
+  
+  @media (max-width: 1240px) {
+    overflow: auto;
+    max-width: calc(100vw - 4rem);
+  }
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  
+  h3 {
+    color: var(--color-gray-900);
+    margin: 0;
+  }
+  
+  p {
+    color: var(--color-gray-600);
+    margin: 0;
+  }
+}
+
+.chartWrapper {
+  width: 100%;
+
+  
+  @media (max-width: 1240px) {
+    min-width: 50rem;
+  }
+}
+

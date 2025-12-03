@@ -1,8 +1,13 @@
+import clsx from "clsx";
 import styles from "./FullScreenLoader.module.scss";
 
-const FullScreenLoader = () => {
+interface FullScreenLoaderProps {
+  variant?: "default" | "fixed";
+}
+
+const FullScreenLoader = ({ variant = "default" }: FullScreenLoaderProps) => {
   return (
-    <div className={styles.container}>
+    <div className={clsx(styles.container, { [styles.fixed]: variant === "fixed" })}>
       <div className={styles.loader}></div>
     </div>
   );

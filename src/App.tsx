@@ -48,7 +48,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/estatisticas" element={<Stats />} />
             <Route path="/pagamentos" element={<Billing />} />
-            <Route path="/personas" element={<Profiles />} />
+            <Route path="/perfis" element={<Profiles />} />
             <Route path="/inteligencia-artificial" element={<AI />} />
             <Route path="/dispositivos" element={<Devices />} />
           </Route>

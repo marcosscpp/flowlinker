@@ -320,14 +320,14 @@ const Profiles = () => {
   return (
     <section className={styles.container}>
       <PageHeader
-        title="Gerenciador de Personas"
-        subtitle="Crie e gerencie personas virtuais para automatizar suas interações."
+        title="Gerenciador de Perfis"
+        subtitle="Crie e gerencie perfis virtuais para automatizar suas interações."
         action={
           <Button
             leftIcon={<HugeiconsIcon icon={UserMultiple03Icon} />}
             onClick={toggleModal}
           >
-            Adicionar Persona
+            Adicionar Perfil
           </Button>
         }
       />
@@ -369,20 +369,20 @@ const Profiles = () => {
         </div>
       </div>
 
-      <Badge>Total de Personas: {personaCards.length}</Badge>
+      <Badge>Total de Perfis: {personaCards.length}</Badge>
 
       <div className={styles.personasGrid}>
         {loadingPersonas && (
-          <p className="body-sm">Carregando personas disponíveis...</p>
+          <p className="body-sm">Carregando perfis disponíveis...</p>
         )}
         {personasError && (
           <p className="body-sm">
-            Não foi possível carregar as personas. Tente novamente em instantes.
+            Não foi possível carregar os perfis. Tente novamente em instantes.
           </p>
         )}
         {!loadingPersonas && !personasError && personaCards.length === 0 && (
           <p className="body-sm">
-            Nenhuma persona disponível no momento. Crie uma nova para começar.
+            Nenhum perfil disponível no momento. Crie um novo para começar.
           </p>
         )}
         {personaCards.map(({ account, ...persona }) => {
@@ -473,7 +473,7 @@ const Profiles = () => {
       <Modal
         isOpen={isModalOpen}
         onClose={toggleModal}
-        title="Adicionar persona"
+        title="Adicionar perfil"
         footer={
           <>
             <ModalGhostButton
@@ -488,7 +488,7 @@ const Profiles = () => {
               isLoading={createPersonaMutation.isPending}
               disabled={createPersonaMutation.isPending}
             >
-              Salvar persona
+              Salvar perfil
             </Button>
           </>
         }
@@ -500,7 +500,7 @@ const Profiles = () => {
         >
           <div className={styles.modalField}>
             <Field
-              label="Nome da persona"
+              label="Nome do perfil"
               name="profileName"
               value={personaForm.profileName}
               onChange={handleChange}
@@ -548,7 +548,7 @@ const Profiles = () => {
       <Modal
         isOpen={Boolean(personaToEdit)}
         onClose={closeEditModal}
-        title="Editar persona"
+        title="Editar perfil"
         footer={
           <>
             <ModalGhostButton
@@ -578,7 +578,7 @@ const Profiles = () => {
         >
           <div className={styles.modalField}>
             <Field
-              label="Nome da persona"
+              label="Nome do perfil"
               name="profileName"
               value={editForm.profileName}
               onChange={handleEditChange}
@@ -714,7 +714,7 @@ const Profiles = () => {
       <Modal
         isOpen={Boolean(personaToDelete)}
         onClose={closeDeleteModal}
-        title="Excluir persona"
+        title="Excluir perfil"
         footer={
           <>
             <ModalGhostButton
@@ -735,7 +735,7 @@ const Profiles = () => {
         }
       >
         <p className="body-md">
-          Tem certeza que deseja excluir a persona{" "}
+          Tem certeza que deseja excluir o perfil{" "}
           <strong>
             {personaToDelete?.profileName ?? personaToDelete?.username}
           </strong>{" "}

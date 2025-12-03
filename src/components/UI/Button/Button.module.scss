@@ -22,7 +22,7 @@
 .primary {
   background: var(--color-indigo-600);
 
-  &:hover {
+  &:hover:not(:disabled) {
     background: var(--color-indigo-800);
   }
 }
@@ -30,7 +30,7 @@
 .danger {
   background: var(--color-red-500);
 
-  &:hover {
+  &:hover:not(:disabled) {
     background: var(--color-red-600);
   }
 }

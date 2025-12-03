@@ -1,0 +1,59 @@
+.select {
+  width: 100%;
+  border: 1px solid var(--color-gray-200);
+  border-radius: 0.5rem;
+  padding: 0.625rem 1rem;
+  font-size: 0.875rem;
+  font-family: var(--font-montserrat);
+  color: var(--color-gray-900);
+  background-color: var(--color-white);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  padding-right: 2.5rem;
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-indigo-400);
+    box-shadow: 0 0 0 2px rgba(98, 40, 215, 0.15);
+  }
+
+  &:hover {
+    border-color: var(--color-gray-300);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: var(--color-gray-50);
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  width: 100%;
+}
+
+.selectWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.error {
+  border-color: var(--color-red-500) !important;
+
+  &:focus {
+    border-color: var(--color-red-500) !important;
+    box-shadow: 0 0 0 2px var(--color-red-100) !important;
+  }
+}
+
+.supportTextError {
+  color: var(--color-red-600);
+}
+

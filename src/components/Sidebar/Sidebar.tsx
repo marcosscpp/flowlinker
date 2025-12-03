@@ -10,6 +10,8 @@ import {
   LogoutSquare01Icon,
   ArrowLeft01Icon,
   ArrowRight01Icon,
+  Menu01Icon,
+  Cancel01Icon,
 } from "@hugeicons/core-free-icons";
 import SidebarItem from "../UI/SidebarItem";
 import Button from "../UI/Button";
@@ -28,9 +30,10 @@ const SidebarIcon = ({ icon }: { icon: typeof Home09Icon }) => (
 interface SidebarProps {
   isExpanded?: boolean;
   onToggle?: () => void;
+  isMobile?: boolean;
 }
 
-const Sidebar = ({ isExpanded = true, onToggle }: SidebarProps) => {
+const Sidebar = ({ isExpanded = true, onToggle, isMobile = false }: SidebarProps) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { logout } = useAuth();
@@ -42,16 +45,23 @@ const Sidebar = ({ isExpanded = true, onToggle }: SidebarProps) => {
     navigate("/login", { replace: true });
   };
 
+  const getToggleIcon = () => {
+    if (isMobile) {
+      return isExpanded ? Cancel01Icon : Menu01Icon;
+    }
+    return isExpanded ? ArrowLeft01Icon : ArrowRight01Icon;
+  };
+
   return (
     <div className={styles.container}>
       <button
         type="button"
         className={styles.toggleButton}
         onClick={onToggle}
-        aria-label={isExpanded ? "Colapsar sidebar" : "Expandir sidebar"}
+        aria-label={isExpanded ? "Fechar menu" : "Abrir menu"}
       >
         <HugeiconsIcon
-          icon={isExpanded ? ArrowLeft01Icon : ArrowRight01Icon}
+          icon={getToggleIcon()}
           size="1.5rem"
         />
       </button>
@@ -84,16 +94,7 @@ const Sidebar = ({ isExpanded = true, onToggle }: SidebarProps) => {
               <span>Início</span>
             </SidebarItem>
 
-            <SidebarItem
-              to="/pagamentos"
-              status={isActive("/pagamentos") ? "active" : "default"}
-              isExpanded={isExpanded}
-              traillingIcon={<SidebarIcon icon={CreditCardIcon} />}
-            >
-              <span>Pagamentos</span>
-            </SidebarItem>
-
-            <SidebarItem
+                      <SidebarItem
               to="/estatisticas"
               status={isActive("/estatisticas") ? "active" : "default"}
               isExpanded={isExpanded}
@@ -103,12 +104,12 @@ const Sidebar = ({ isExpanded = true, onToggle }: SidebarProps) => {
             </SidebarItem>
 
             <SidebarItem
-              to="/personas"
-              status={isActive("/personas") ? "active" : "default"}
+              to="/perfis"
+              status={isActive("/perfis") ? "active" : "default"}
               isExpanded={isExpanded}
               traillingIcon={<SidebarIcon icon={UserMultiple03Icon} />}
             >
-              <span>Personas</span>
+              <span>Perfis</span>
             </SidebarItem>
 
             <SidebarItem
@@ -129,6 +130,15 @@ const Sidebar = ({ isExpanded = true, onToggle }: SidebarProps) => {
               traillingIcon={<SidebarIcon icon={SparklesIcon} />}
             >
               <span>IA</span>
+            </SidebarItem>
+
+            <SidebarItem
+              to="/pagamentos"
+              status={isActive("/pagamentos") ? "active" : "default"}
+              isExpanded={isExpanded}
+              traillingIcon={<SidebarIcon icon={CreditCardIcon} />}
+            >
+              <span>Pagamentos</span>
             </SidebarItem>
           </ul>
         </nav>

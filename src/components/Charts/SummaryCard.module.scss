@@ -1,0 +1,48 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.kpiCard {
+  min-height: auto;
+  padding: 1rem;
+}
+
+.largeCardWrapper {
+  width: 100%;
+}
+
+.largeCard {
+  background-color: var(--color-indigo-600) !important;
+  border-color: var(--color-indigo-600) !important;
+  min-height: auto;
+  padding: 1.5rem;
+
+  :global(.body-sm-bold),
+  :global(.label) {
+    color: var(--color-white) !important;
+  }
+
+  :global(.title-lg),
+  :global(.value) {
+    color: var(--color-white) !important;
+  }
+
+  :global(.tooltipTrigger),
+  :global(.infoIcon) {
+    color: var(--color-white) !important;
+  }
+}
+

@@ -96,34 +96,9 @@ const Home = () => {
 
   const formatEventDate = ActivityLogFormatter.formatDate;
 
-  const getPlatformClass = (platformKey?: string) => {
-    if (!platformKey) return undefined;
-    if (platformKey === "facebook") return styles.platformFacebook;
-    if (platformKey === "instagram") return styles.platformInstagram;
-    return undefined;
+  const renderActivityText = (item: FormattedActivity): ReactNode => {
+    return item.description;
   };
-
-  const renderActivityText = (item: FormattedActivity): ReactNode => (
-    <>
-      <span className={styles.activitiesActor}>{item.actor}</span>{" "}
-      {item.description}
-      {item.platform && (
-        <>
-          {" "}
-          (
-          <span
-            className={clsx(
-              styles.activitiesPlatform,
-              getPlatformClass(item.platform.key)
-            )}
-          >
-            {item.platform.label}
-          </span>
-          )
-        </>
-      )}
-    </>
-  );
 
   const downloadUrl = latestReleaseData?.url;
 
@@ -138,7 +113,7 @@ const Home = () => {
   }
 
   return (
-    <>
+    <div className={styles.container}>
       <PageHeader
         title={`Bem-vindo ao Flowlinker ${customerData.name}!`}
         subtitle="Aqui você acompanha o desempenho das automações, monitora as personas ativas e visualiza os resultados das ações em tempo real."
@@ -259,12 +234,12 @@ const Home = () => {
                 </span>
                 <div className={styles.infoText}>
                   <a
-                    href="https://wa.me/5511970253645"
+                    href="https://wa.me/5511947715632"
                     className={clsx(styles.infoLink, "body-sm")}
                     target="_blank"
                     rel="noreferrer noopener"
                   >
-                    (11) 97025-3645
+                    +55 11 94771-5632
                   </a>
                 </div>
               </li>
@@ -350,7 +325,7 @@ const Home = () => {
           </p>
         ) : null}
       </Modal>
-    </>
+    </div>
   );
 };
 

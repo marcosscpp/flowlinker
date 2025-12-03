@@ -9,5 +9,6 @@ export { default as SidebarItem } from "./SidebarItem";
 export { default as Loader } from "./Loader";
 export { default as PageHeader } from "./PageHeader";
 export { KpiCard } from "./KpiCard";
+export { default as Select } from "./Select";
 export { default as Modal } from "./Modal/index";
 export { default as Check } from "./Check";
