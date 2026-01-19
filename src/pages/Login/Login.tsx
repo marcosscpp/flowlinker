@@ -111,6 +111,12 @@ const Login = () => {
                 leftIcon={<HugeiconsIcon icon={SquareLock02Icon} />}
               />
 
+              <div className={styles.forgotPassword}>
+                <Link to="/esqueci-senha" className={styles.forgotPasswordLink}>
+                  Esqueci minha senha
+                </Link>
+              </div>
+
               {rootError ? (
                 <span className={styles.formError} role="alert">
                   {rootError}

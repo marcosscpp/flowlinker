@@ -122,3 +122,22 @@ $icon-position: 1.5rem + $ilustration-padding;
     margin-top: 0;
   }
 }
+
+.forgotPassword {
+  width: 100%;
+  text-align: right;
+  margin-top: -0.75rem;
+}
+
+.forgotPasswordLink {
+  color: var(--color-gray-600);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--color-gray-900);
+    text-decoration: underline;
+  }
+}

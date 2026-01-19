@@ -1,0 +1,344 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.counterBadge {
+  align-self: flex-start;
+}
+
+.campaignsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.campaignCard {
+  width: 100%;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  background-color: var(--color-white);
+  box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.campaignHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+
+  @media (max-width: 720px) {
+    flex-direction: column;
+  }
+}
+
+.campaignInfo {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  flex: 1;
+}
+
+// Platform icon (circular badge like Profiles)
+.platformIcon {
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.625rem;
+  color: var(--color-white);
+  flex-shrink: 0;
+
+  svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+}
+
+.platform-facebook {
+  background: var(--gradient-facebook);
+}
+
+.platform-instagram {
+  background: var(--gradient-instagram);
+}
+
+.campaignTexts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.campaignTitleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.campaignName {
+  color: var(--color-gray-900);
+  font-weight: 600;
+}
+
+.campaignMeta {
+  color: var(--color-gray-500);
+  font-size: 0.875rem;
+}
+
+// Status badge with dot indicator
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  white-space: nowrap;
+
+  &.status-running {
+    background-color: var(--color-green-100);
+    color: var(--color-green-700);
+    border: 1px solid var(--color-green-200);
+  }
+
+  &.status-paused {
+    background-color: var(--color-yellow-100);
+    color: var(--color-yellow-700);
+    border: 1px solid var(--color-yellow-200);
+  }
+
+  &.status-completed {
+    background-color: var(--color-blue-100);
+    color: var(--color-blue-700);
+    border: 1px solid var(--color-blue-200);
+  }
+
+  &.status-cancelled {
+    background-color: var(--color-gray-100);
+    color: var(--color-gray-600);
+    border: 1px solid var(--color-gray-200);
+  }
+}
+
+// Small status dot inside badge
+.statusDot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.statusRunning {
+  background-color: var(--color-green-500);
+  animation: pulse 2s infinite;
+}
+
+.statusPaused {
+  background-color: var(--color-yellow-500);
+}
+
+.statusCompleted {
+  background-color: var(--color-blue-500);
+}
+
+.statusCancelled {
+  background-color: var(--color-gray-400);
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.campaignBody {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.progressSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.progressHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.progressLabel {
+  color: var(--color-gray-600);
+  font-size: 0.875rem;
+}
+
+.progressValue {
+  color: var(--color-gray-900);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+// Fixed progress bar with proper height
+.progressBar {
+  width: 100%;
+  height: 8px;
+  background-color: var(--color-gray-100);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  min-height: 8px;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+  background: var(--color-indigo-400);
+}
+
+.campaignDetails {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  padding-top: 1.25rem;
+  padding-bottom: 0.5rem;
+  border-top: 1px solid var(--color-gray-100);
+}
+
+.detailItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.detailLabel {
+  color: var(--color-gray-500);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.detailValue {
+  color: var(--color-gray-800);
+  font-size: 0.875rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.accountsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+}
+
+.accountBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.125rem 0.5rem;
+  background-color: var(--color-gray-100);
+  border-radius: 1rem;
+  font-size: 0.7rem;
+  color: var(--color-gray-700);
+}
+
+.accountDot {
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: 50%;
+  background-color: var(--color-green-400);
+
+  &.inactive {
+    background-color: var(--color-gray-400);
+  }
+}
+
+// Wrapper para ocupar todo o espaço disponível
+.emptyWrapper {
+  width: 100%;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  background-color: var(--color-white);
+  border-radius: 0.75rem;
+  box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.05);
+  width: 100%;
+  min-height: 300px;
+}
+
+.emptyIcon {
+  color: var(--color-gray-300);
+  margin-bottom: 1rem;
+}
+
+.emptyTitle {
+  color: var(--color-gray-900);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.emptyDescription {
+  color: var(--color-gray-500);
+  font-size: 0.875rem;
+  max-width: 24rem;
+}
+
+// Footer with cancel button
+.campaignFooter {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-gray-100);
+  margin-top: 0.5rem;
+}
+
+.cancelButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: var(--color-red-500);
+  color: var(--color-white);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: var(--color-red-600);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  svg {
+    flex-shrink: 0;
+  }
+}

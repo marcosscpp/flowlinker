@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import Chart from "react-apexcharts";
 import { metricsService } from "@/services";
+import { QUERY_KEYS } from "@/constants";
 import { colors } from "@/styles";
 import { remToPx } from "@/utils";
 import type { ApexOptions } from "apexcharts";
@@ -34,7 +35,7 @@ const TIME_RANGES = [
 
 const HeatmapChart = ({ days = 7 }: HeatmapChartProps) => {
   const { data, isLoading, error } = useQuery({
-    queryKey: ["heatmap", days],
+    queryKey: [QUERY_KEYS.metrics.heatmap, days],
     queryFn: () => metricsService.getHeatmap({ days }),
   });
 

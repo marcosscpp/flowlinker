@@ -5,6 +5,7 @@ import {
   metricsService,
   socialMediaAccountsService,
 } from "@/services";
+import { QUERY_KEYS } from "@/constants";
 import chartStyles from "./Chart.module.scss";
 import styles from "./SummaryCard.module.scss";
 
@@ -15,18 +16,18 @@ interface SummaryCardProps {
 const SummaryCard = ({ hours = 24 }: SummaryCardProps) => {
   const { data: activeAccountsData, isLoading: loadingActiveAccounts } =
     useQuery({
-      queryKey: ["activeAccounts"],
+      queryKey: [QUERY_KEYS.accounts.active],
       queryFn: () => socialMediaAccountsService.getActiveCount(),
     });
 
   const { data: sharesData, isLoading: loadingShares } = useQuery({
-    queryKey: ["shares", hours],
+    queryKey: [QUERY_KEYS.metrics.shares, hours],
     queryFn: () => metricsService.getShares({ hours }),
   });
 
   const { data: peopleReachedData, isLoading: loadingPeopleReached } =
     useQuery({
-      queryKey: ["peopleReached", hours],
+      queryKey: [QUERY_KEYS.metrics.peopleReached, hours],
       queryFn: () => metricsService.getPeopleReached({ hours }),
     });
 
@@ -64,7 +65,7 @@ const SummaryCard = ({ hours = 24 }: SummaryCardProps) => {
             label="Compartilhamentos por Conta"
             value={sharesPerAccount}
             loading={loadingShares || loadingActiveAccounts}
-            tooltip="Dica: Evite fazer mais de 120 compartilhamentos por dia para manter a segurança das contas."
+            tooltip="Dica: Evite fazer mais de 120 compartilhamentos por dia por conta para manter a segurança das contas."
             className={styles.kpiCard}
           />
           <KpiCard

@@ -3,6 +3,7 @@ import clsx from "clsx";
 import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useModal } from "@/hooks";
 import styles from "./Devices.module.scss";
 import {
   PageHeader,
@@ -12,6 +13,8 @@ import {
   ModalGhostButton,
   Button,
   Field,
+  QueryState,
+  SkeletonDevices,
 } from "@/components";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { PencilEdit02Icon } from "@hugeicons/core-free-icons";
@@ -21,9 +24,7 @@ import {
   type DeviceStatus,
   type DeviceConnectionStatus,
 } from "@/services";
-
-const DEVICES_QUERY_KEY = ["devices"];
-const DEVICE_COUNTS_QUERY_KEY = ["devicesCounts"];
+import { QUERY_KEYS } from "@/constants";
 
 const statusDotClassMap: Record<
   Exclude<DeviceConnectionStatus, undefined>,
@@ -105,9 +106,7 @@ const buildDeviceInfo = (device: DeviceResponse) => {
 const Devices = () => {
   const queryClient = useQueryClient();
   const [pendingToggleId, setPendingToggleId] = useState<number | null>(null);
-  const [deviceToRename, setDeviceToRename] = useState<DeviceResponse | null>(
-    null
-  );
+  const renameModal = useModal<DeviceResponse>();
   const [newDeviceName, setNewDeviceName] = useState("");
 
   const {
@@ -115,7 +114,7 @@ const Devices = () => {
     isLoading: loadingDevices,
     error: devicesError,
   } = useQuery({
-    queryKey: DEVICES_QUERY_KEY,
+    queryKey: [QUERY_KEYS.devices.list],
     queryFn: () => devicesService.list(),
     staleTime: 1000 * 60,
   });
@@ -125,7 +124,7 @@ const Devices = () => {
     isLoading: loadingCounts,
     error: countsError,
   } = useQuery({
-    queryKey: DEVICE_COUNTS_QUERY_KEY,
+    queryKey: [QUERY_KEYS.devices.counts],
     queryFn: () => devicesService.getCounts(),
     staleTime: 1000 * 60 * 5,
   });
@@ -135,12 +134,12 @@ const Devices = () => {
       devicesService.updateStatus(id, { status }),
     onMutate: async (variables) => {
       setPendingToggleId(variables.id);
-      await queryClient.cancelQueries({ queryKey: DEVICES_QUERY_KEY });
+      await queryClient.cancelQueries({ queryKey: [QUERY_KEYS.devices.list] });
       const previousDevices =
-        queryClient.getQueryData<DeviceResponse[]>(DEVICES_QUERY_KEY);
+        queryClient.getQueryData<DeviceResponse[]>([QUERY_KEYS.devices.list]);
 
       queryClient.setQueryData<DeviceResponse[]>(
-        DEVICES_QUERY_KEY,
+        [QUERY_KEYS.devices.list],
         (current = []) =>
           current.map((device) =>
             device.id === variables.id
@@ -153,13 +152,13 @@ const Devices = () => {
     },
     onError: (_error, _variables, context) => {
       if (context?.previousDevices) {
-        queryClient.setQueryData(DEVICES_QUERY_KEY, context.previousDevices);
+        queryClient.setQueryData([QUERY_KEYS.devices.list], context.previousDevices);
       }
     },
     onSettled: () => {
       setPendingToggleId(null);
-      queryClient.invalidateQueries({ queryKey: DEVICES_QUERY_KEY });
-      queryClient.invalidateQueries({ queryKey: DEVICE_COUNTS_QUERY_KEY });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.devices.list] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.devices.counts] });
     },
   });
 
@@ -168,32 +167,28 @@ const Devices = () => {
       devicesService.updateName(id, { name }),
     onSuccess: (updatedDevice) => {
       queryClient.setQueryData<DeviceResponse[]>(
-        DEVICES_QUERY_KEY,
+        [QUERY_KEYS.devices.list],
         (current = []) =>
           current.map((device) =>
             device.id === updatedDevice.id ? updatedDevice : device
           )
       );
-      queryClient.invalidateQueries({ queryKey: DEVICES_QUERY_KEY });
-      closeRenameModal();
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.devices.list] });
+      renameModal.close();
+      setNewDeviceName("");
     },
   });
 
   const openRenameModal = (device: DeviceResponse) => {
-    setDeviceToRename(device);
+    renameModal.openWith(device);
     setNewDeviceName(device.name || "");
-  };
-
-  const closeRenameModal = () => {
-    setDeviceToRename(null);
-    setNewDeviceName("");
   };
 
   const handleRenameSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!deviceToRename || !newDeviceName.trim()) return;
+    if (!renameModal.data || !newDeviceName.trim()) return;
     updateNameMutation.mutate({
-      id: deviceToRename.id,
+      id: renameModal.data.id,
       name: newDeviceName.trim(),
     });
   };
@@ -228,25 +223,16 @@ const Devices = () => {
 
       <Badge className={styles.counterBadge}>{badgeText}</Badge>
 
-      <div className={styles.devicesList}>
-        {loadingDevices && (
-          <p className="body-sm">Carregando dispositivos cadastrados...</p>
-        )}
-
-        {devicesError && (
-          <p className="body-sm">
-            Não foi possível carregar os dispositivos. Tente novamente em
-            instantes.
-          </p>
-        )}
-
-        {!loadingDevices && !devicesError && devices.length === 0 && (
-          <p className="body-sm">
-            Nenhum dispositivo vinculado. Adicione um dispositivo para começar.
-          </p>
-        )}
-
-        {devices.map((device) => {
+      <div className={styles.devicesList} data-tourid="devices-list">
+        <QueryState
+          isLoading={loadingDevices}
+          error={devicesError}
+          hasData={devices.length > 0}
+          skeleton={<SkeletonDevices count={3} />}
+          errorText="Não foi possível carregar os dispositivos. Tente novamente em instantes."
+          emptyState="Nenhum dispositivo vinculado. Adicione um dispositivo para começar."
+        >
+          {devices.map((device) => {
           const rawConnectionStatus =
             device.connectionStatus || fallbackStatus(device.status);
           const statusLabel = device.connectionStatus
@@ -316,16 +302,17 @@ const Devices = () => {
             </article>
           );
         })}
+        </QueryState>
       </div>
 
       <Modal
-        isOpen={Boolean(deviceToRename)}
-        onClose={closeRenameModal}
+        isOpen={renameModal.isOpen}
+        onClose={renameModal.close}
         title="Renomear dispositivo"
         footer={
           <>
             <ModalGhostButton
-              onClick={closeRenameModal}
+              onClick={renameModal.close}
               disabled={updateNameMutation.isPending}
             >
               Cancelar

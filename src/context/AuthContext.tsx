@@ -141,8 +141,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     dispatch({ type: "LOGOUT_START" });
     try {
       await authService.logout();
-    } catch (err) {
-      console.error("Falha na chamada da API de logout:", err);
+    } catch {
+      // Erro de logout ignorado - usuário será deslogado localmente de qualquer forma
     } finally {
       dispatch({ type: "LOGOUT_SUCCESS" });
     }

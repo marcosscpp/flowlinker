@@ -21,12 +21,18 @@ export interface ResetPasswordPayload {
   newPassword: string;
 }
 
+export interface ChangePasswordPayload {
+  currentPassword: string;
+  newPassword: string;
+}
+
 const AUTH_ENDPOINT = {
   LOGIN: "/auth/login",
   ME: "/auth/me",
   LOGOUT: "/auth/logout",
   PASSWORD_FORGOT: "/auth/password/forgot",
   PASSWORD_RESET: "/auth/password/reset",
+  PASSWORD_CHANGE: "/auth/password/change",
 } as const;
 
 export const authService = {
@@ -57,5 +63,9 @@ export const authService = {
 
   resetPassword: async (payload: ResetPasswordPayload) => {
     await api.post<void>(AUTH_ENDPOINT.PASSWORD_RESET, payload);
+  },
+
+  changePassword: async (payload: ChangePasswordPayload) => {
+    await api.post<void>(AUTH_ENDPOINT.PASSWORD_CHANGE, payload);
   },
 };

@@ -2,7 +2,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import {
   Home09Icon,
   Analytics01Icon,
-  UserMultiple03Icon,
+  Megaphone01Icon,
   Menu01Icon,
 } from "@hugeicons/core-free-icons";
 import { NavLink } from "react-router-dom";
@@ -38,13 +38,13 @@ const BottomNav = ({ onMenuClick }: BottomNavProps) => {
       </NavLink>
 
       <NavLink
-        to="/perfis"
+        to="/campanhas"
         className={({ isActive }) =>
           clsx(styles.navItem, { [styles.active]: isActive })
         }
       >
-        <HugeiconsIcon icon={UserMultiple03Icon} size="1.5rem" />
-        <span>Perfis</span>
+        <HugeiconsIcon icon={Megaphone01Icon} size="1.5rem" />
+        <span>Campanhas</span>
       </NavLink>
 
       <button

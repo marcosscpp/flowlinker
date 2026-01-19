@@ -11,7 +11,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
   fullWidth?: boolean;
-  variant?: "primary" | "danger";
+  variant?: "primary" | "secondary" | "danger";
 }
 
 const BUTTON_ICON_SIZE = "1.75rem"; // 28px

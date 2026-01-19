@@ -4,19 +4,18 @@ import type { ReactNode } from "react";
 import clsx from "clsx";
 import styles from "./SidebarView.module.scss";
 import BottomNav from "./BottomNav";
+import { BREAKPOINTS } from "@/constants";
 
 interface SidebarViewProps {
   children: ReactNode;
 }
-
-const MOBILE_BREAKPOINT = 768;
 
 const SidebarView = ({ children }: SidebarViewProps) => {
   const [isExpanded, setIsExpanded] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
 
   const checkMobile = useCallback(() => {
-    const mobile = window.innerWidth <= MOBILE_BREAKPOINT;
+    const mobile = window.innerWidth <= BREAKPOINTS.mobile;
     setIsMobile(mobile);
     if (mobile) {
       setIsExpanded(false);

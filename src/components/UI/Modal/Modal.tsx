@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { CancelCircleIcon } from "@hugeicons/core-free-icons";
+import clsx from "clsx";
 import styles from "./Modal.module.scss";
 
 type ModalProps = {
@@ -10,9 +11,10 @@ type ModalProps = {
   title?: string;
   footer?: React.ReactNode;
   children: React.ReactNode;
+  size?: "default" | "lg";
 };
 
-const Modal = ({ isOpen, onClose, title, children, footer }: ModalProps) => {
+const Modal = ({ isOpen, onClose, title, children, footer, size = "default" }: ModalProps) => {
   useEffect(() => {
     if (!isOpen) return;
 
@@ -32,9 +34,20 @@ const Modal = ({ isOpen, onClose, title, children, footer }: ModalProps) => {
     return null;
   }
 
+  const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (event.target === event.currentTarget) {
+      onClose();
+    }
+  };
+
   return createPortal(
-    <div className={styles.overlay} role="dialog" aria-modal="true">
-      <article className={styles.modal}>
+    <div
+      className={styles.overlay}
+      role="dialog"
+      aria-modal="true"
+      onClick={handleOverlayClick}
+    >
+      <article className={clsx(styles.modal, size === "lg" && styles.modalLg)}>
         <header className={styles.header}>
           {title && <h2 className={styles.title}>{title}</h2>}
           <button

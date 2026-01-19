@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { PageHeader, Select } from "@/components";
 import {
   PersonasRankingChart,
@@ -26,13 +26,9 @@ const Stats = () => {
     PERIOD_OPTIONS[1]
   );
 
-  const hours = useMemo(() => {
-    return selectedPeriod.hours;
-  }, [selectedPeriod]);
-
-  const days = useMemo(() => {
-    return selectedPeriod.days;
-  }, [selectedPeriod]);
+  // Acesso direto às propriedades - useMemo era desnecessário aqui
+  // pois acessar propriedades de objetos é O(1) e não requer memoização
+  const { hours, days } = selectedPeriod;
 
   return (
     <section className={styles.container}>
@@ -40,7 +36,7 @@ const Stats = () => {
         title="Estatísticas"
         subtitle="Visualize e analise métricas de suas ações"
         action={
-          <div className={styles.periodFilter}>
+          <div className={styles.periodFilter} data-tourid="stats-filter">
             <Select
               label="Período"
               value={PERIOD_OPTIONS.findIndex(
@@ -62,7 +58,7 @@ const Stats = () => {
         }
       />
 
-      <div className={styles.chartsGrid}>
+      <div className={styles.chartsGrid} data-tourid="stats-charts">
         <div className={styles.chartCard}>
           <SummaryCard hours={hours} />
         </div>

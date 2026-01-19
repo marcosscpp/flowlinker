@@ -1,5 +1,7 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import type { ReactNode } from "react";
+import { useModal } from "@/hooks";
+import { QUERY_KEYS } from "@/constants";
 import clsx from "clsx";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -27,15 +29,15 @@ import {
 } from "@hugeicons/core-free-icons";
 
 const Home = () => {
-  const [isDownloadModalOpen, setDownloadModalOpen] = useState(false);
+  const downloadModal = useModal();
   const { data: customerData, isLoading: loadingCustomer } = useQuery({
-    queryKey: ["customer"],
+    queryKey: [QUERY_KEYS.customer],
     queryFn: () => customerService.getName(),
     staleTime: 1000 * 60 * 10, // 10 minutes
   });
 
   const { data: latestReleaseData } = useQuery({
-    queryKey: ["latestRelease"],
+    queryKey: [QUERY_KEYS.latestRelease],
     queryFn: () => appReleasesService.getLatest(),
     staleTime: Infinity,
   });
@@ -44,39 +46,39 @@ const Home = () => {
     isLoading: loadingMetrics,
     error: metricsError,
   } = useQuery({
-    queryKey: ["recentMetrics", 8],
+    queryKey: [QUERY_KEYS.metrics.recent],
     queryFn: () => metricsService.getRecent({ limit: 20 }),
   });
 
+  // Queries de métricas com staleTime para evitar refetch desnecessário
+  // staleTime: dados considerados "frescos" por 2 minutos, evitando chamadas repetidas
+  const METRICS_STALE_TIME = 1000 * 60 * 2; // 2 minutos
+
   const { data: activeAccountsData, isLoading: loadingActiveAccounts } =
     useQuery({
-      queryKey: ["activeAccounts"],
+      queryKey: [QUERY_KEYS.accounts.active],
       queryFn: () => socialMediaAccountsService.getActiveCount(),
-      refetchOnMount: true,
-      refetchOnWindowFocus: true,
+      staleTime: METRICS_STALE_TIME,
     });
 
   const { data: shareMetricsData, isLoading: loadingShares } = useQuery({
-    queryKey: ["shareMetrics", 24],
+    queryKey: [QUERY_KEYS.metrics.shares, 24],
     queryFn: () => metricsService.getShares({ hours: 24 }),
-    refetchOnMount: true,
-    refetchOnWindowFocus: true,
+    staleTime: METRICS_STALE_TIME,
   });
 
   const { data: peopleReachedData, isLoading: loadingPeopleReached } = useQuery(
     {
-      queryKey: ["peopleReached", 24],
+      queryKey: [QUERY_KEYS.metrics.peopleReached, 24],
       queryFn: () => metricsService.getPeopleReached({ hours: 24 }),
-      refetchOnMount: true,
-      refetchOnWindowFocus: true,
+      staleTime: METRICS_STALE_TIME,
     }
   );
 
   const { data: errorsData, isLoading: loadingErrors } = useQuery({
-    queryKey: ["errorsMetrics", 24],
+    queryKey: [QUERY_KEYS.metrics.errors, 24],
     queryFn: () => metricsService.getErrors({ hours: 24 }),
-    refetchOnMount: true,
-    refetchOnWindowFocus: true,
+    staleTime: METRICS_STALE_TIME,
   });
 
   const isLoading = loadingCustomer && !customerData;
@@ -102,10 +104,38 @@ const Home = () => {
 
   const downloadUrl = latestReleaseData?.url;
 
+  const TRUSTED_DOWNLOAD_DOMAINS = [
+    "flowlinker.com.br",
+    "api.flowlinker.com.br",
+    "github.com",
+    "releases.flowlinker.com.br",
+    "flowlinker-releases.s3.us-east-2.amazonaws.com"
+  ];
+
+  const isUrlTrusted = (url: string): boolean => {
+    try {
+      const parsedUrl = new URL(url);
+      return TRUSTED_DOWNLOAD_DOMAINS.some(
+        (domain) =>
+          parsedUrl.hostname === domain ||
+          parsedUrl.hostname.endsWith(`.${domain}`)
+      );
+    } catch {
+      return false;
+    }
+  };
+
   const handleConfirmDownload = () => {
     if (!downloadUrl) return;
+
+    // Valida se a URL pertence a um domínio confiável antes de redirecionar
+    if (!isUrlTrusted(downloadUrl)) {
+      console.warn("Tentativa de redirecionamento para domínio não confiável:", downloadUrl);
+      return;
+    }
+
     window.open(downloadUrl, "_blank", "noopener,noreferrer");
-    setDownloadModalOpen(false);
+    downloadModal.close();
   };
 
   if (isLoading || !hasData) {
@@ -118,18 +148,20 @@ const Home = () => {
         title={`Bem-vindo ao Flowlinker ${customerData.name}!`}
         subtitle="Aqui você acompanha o desempenho das automações, monitora as personas ativas e visualiza os resultados das ações em tempo real."
       />
-      <Button
-        className={styles.downloadButton}
-        fullWidth
-        leftIcon={<HugeiconsIcon icon={Download02Icon} />}
-        onClick={() => setDownloadModalOpen(true)}
-        disabled={!downloadUrl}
-      >
-        Baixar Flowlinker Desktop
-      </Button>
+      <div data-tourid="home-download">
+        <Button
+          className={styles.downloadButton}
+          fullWidth
+          leftIcon={<HugeiconsIcon icon={Download02Icon} />}
+          onClick={downloadModal.open}
+          disabled={!downloadUrl}
+        >
+          Baixar Flowlinker Desktop
+        </Button>
+      </div>
       <section className={styles.content}>
         <div className={styles.mainStack}>
-          <div className={styles.kpiGrid}>
+          <div className={styles.kpiGrid} data-tourid="home-kpis">
             <KpiCard
               label="Total de contas ativas"
               value={activeAccountsData?.activeCount ?? 0}
@@ -154,7 +186,7 @@ const Home = () => {
             />
           </div>
 
-          <div className={styles.activitiesCard}>
+          <div className={styles.activitiesCard} data-tourid="home-activities">
             <header className={styles.activitiesHeader}>
               <p className="body-lg-semibold">Atividades Recentes</p>
               <p className="body-sm">
@@ -296,12 +328,12 @@ const Home = () => {
       </section>
 
       <Modal
-        isOpen={isDownloadModalOpen}
-        onClose={() => setDownloadModalOpen(false)}
+        isOpen={downloadModal.isOpen}
+        onClose={downloadModal.close}
         title="Baixar Flowlinker"
         footer={
           <>
-            <ModalGhostButton onClick={() => setDownloadModalOpen(false)}>
+            <ModalGhostButton onClick={downloadModal.close}>
               Cancelar
             </ModalGhostButton>
             <Button

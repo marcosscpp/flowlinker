@@ -14,6 +14,7 @@
   --color-black: #000000;
 
   /* Brand Colors - Indigo */
+  --color-indigo-50: #f5f3ff;
   --color-indigo-100: #e8e6ff;
   --color-indigo-200: #d4d1ff;
   --color-indigo-300: #b4abff;
@@ -44,6 +45,10 @@
   --color-blue-700: #0073ff;
 
   /* Social Media Colors - Purple */
+  --color-purple-50: #f5f3ff;
+  --color-purple-100: #ede9fe;
+  --color-purple-500: #8b5cf6;
+  --color-purple-600: #7c3aed;
   --color-purple-700: #6228d7;
 
   /* Social Media Colors - Pink */
@@ -54,6 +59,9 @@
   --color-yellow-200: #e3d83b;
   --color-yellow-300: #f9ce34;
   --color-yellow-400: #cfbd1c;
+
+  /* Semantic Colors - Amber (Warning) */
+  --color-amber-500: #f59e0b;
 
   --gradient-facebook: linear-gradient(
     90deg,

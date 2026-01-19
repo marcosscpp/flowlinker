@@ -2,7 +2,6 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import clsx from "clsx";
 import {
   Home09Icon,
-  CreditCardIcon,
   Analytics01Icon,
   UserMultiple03Icon,
   LaptopPhoneSyncFreeIcons,
@@ -12,6 +11,9 @@ import {
   ArrowRight01Icon,
   Menu01Icon,
   Cancel01Icon,
+  Settings01Icon,
+  HelpCircleIcon,
+  Megaphone01Icon,
 } from "@hugeicons/core-free-icons";
 import SidebarItem from "../UI/SidebarItem";
 import Button from "../UI/Button";
@@ -67,7 +69,7 @@ const Sidebar = ({ isExpanded = true, onToggle, isMobile = false }: SidebarProps
       </button>
 
       <div>
-        <div className={styles.logo}>
+        <div className={styles.logo} data-tourid="sidebar-logo">
           {isExpanded ? (
             <img
               src={FlowlinkerLogo}
@@ -90,15 +92,17 @@ const Sidebar = ({ isExpanded = true, onToggle, isMobile = false }: SidebarProps
               status={isActive("/") ? "active" : "default"}
               isExpanded={isExpanded}
               traillingIcon={<SidebarIcon icon={Home09Icon} />}
+              data-tourid="sidebar-home"
             >
               <span>Início</span>
             </SidebarItem>
 
-                      <SidebarItem
+            <SidebarItem
               to="/estatisticas"
               status={isActive("/estatisticas") ? "active" : "default"}
               isExpanded={isExpanded}
               traillingIcon={<SidebarIcon icon={Analytics01Icon} />}
+              data-tourid="sidebar-stats"
             >
               <span>Estatísticas</span>
             </SidebarItem>
@@ -108,6 +112,7 @@ const Sidebar = ({ isExpanded = true, onToggle, isMobile = false }: SidebarProps
               status={isActive("/perfis") ? "active" : "default"}
               isExpanded={isExpanded}
               traillingIcon={<SidebarIcon icon={UserMultiple03Icon} />}
+              data-tourid="sidebar-profiles"
             >
               <span>Perfis</span>
             </SidebarItem>
@@ -117,8 +122,19 @@ const Sidebar = ({ isExpanded = true, onToggle, isMobile = false }: SidebarProps
               status={isActive("/dispositivos") ? "active" : "default"}
               isExpanded={isExpanded}
               traillingIcon={<SidebarIcon icon={LaptopPhoneSyncFreeIcons} />}
+              data-tourid="sidebar-devices"
             >
               <span>Dispositivos</span>
+            </SidebarItem>
+
+            <SidebarItem
+              to="/campanhas"
+              status={isActive("/campanhas") ? "active" : "default"}
+              isExpanded={isExpanded}
+              traillingIcon={<SidebarIcon icon={Megaphone01Icon} />}
+              data-tourid="sidebar-campaigns"
+            >
+              <span>Campanhas</span>
             </SidebarItem>
 
             <SidebarItem
@@ -128,6 +144,7 @@ const Sidebar = ({ isExpanded = true, onToggle, isMobile = false }: SidebarProps
               }
               isExpanded={isExpanded}
               traillingIcon={<SidebarIcon icon={SparklesIcon} />}
+              data-tourid="sidebar-ai"
             >
               <span>IA</span>
             </SidebarItem>
@@ -136,9 +153,20 @@ const Sidebar = ({ isExpanded = true, onToggle, isMobile = false }: SidebarProps
               to="/pagamentos"
               status={isActive("/pagamentos") ? "active" : "default"}
               isExpanded={isExpanded}
-              traillingIcon={<SidebarIcon icon={CreditCardIcon} />}
+              traillingIcon={<SidebarIcon icon={Settings01Icon} />}
+              data-tourid="sidebar-settings"
             >
-              <span>Pagamentos</span>
+              <span>Configurações</span>
+            </SidebarItem>
+
+            <SidebarItem
+              to="/ajuda"
+              status={isActive("/ajuda") ? "active" : "default"}
+              isExpanded={isExpanded}
+              traillingIcon={<SidebarIcon icon={HelpCircleIcon} />}
+              data-tourid="sidebar-help"
+            >
+              <span>Ajuda</span>
             </SidebarItem>
           </ul>
         </nav>

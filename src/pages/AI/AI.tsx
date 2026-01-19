@@ -170,7 +170,7 @@ const AI = () => {
       />
 
       {!dicasResponse ? (
-        <div className={styles.formCard}>
+        <div className={styles.formCard} data-tourid="ai-form">
           <div className={styles.formHeader}>
             <HugeiconsIcon icon={SparklesIcon} size="2rem" className={styles.sparklesIcon} />
             <div>
@@ -200,13 +200,13 @@ const AI = () => {
 
             <div className={styles.textareaField}>
               <label htmlFor="descricao" className="body-sm-bold">
-                Descrição do perfil
+                Tipo de conteúdo que deseja falar
               </label>
               <textarea
                 id="descricao"
                 name="descricao"
                 className={styles.textarea}
-                placeholder="Descreva seu perfil, público-alvo, tipo de conteúdo que produz..."
+                placeholder="Descreva o tipo de conteúdo que você deseja criar..."
                 value={formData.descricao}
                 onChange={handleInputChange("descricao")}
                 rows={4}

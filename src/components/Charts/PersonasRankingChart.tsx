@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import Chart from "react-apexcharts";
 import { metricsService } from "@/services";
+import { QUERY_KEYS } from "@/constants";
 import { colors } from "@/styles";
 import { remToPx } from "@/utils";
 import type { ApexOptions } from "apexcharts";
@@ -16,7 +17,7 @@ const PersonasRankingChart = ({
   limit = 10,
 }: PersonasRankingChartProps) => {
   const { data, isLoading, error } = useQuery({
-    queryKey: ["personasRanking", hours, limit],
+    queryKey: [QUERY_KEYS.accounts.personasRanking, hours, limit],
     queryFn: () => metricsService.getPersonasRanking({ hours, limit }),
   });
 

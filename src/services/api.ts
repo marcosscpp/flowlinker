@@ -1,7 +1,10 @@
 import axios, { AxiosError } from "axios";
 
 const API_BASE_URL =
-  import.meta.env.API_BASE_URL || "https://flowlinker.onrender.com";
+  import.meta.env.API_BASE_URL || "https://api.flowlinker.com.br";
+
+// Rotas públicas que não devem redirecionar para login em caso de 401/403
+const PUBLIC_ROUTES = ["/login", "/esqueci-senha", "/redefinir-senha"];
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
@@ -26,6 +29,14 @@ const extractErrorMessage = (error: AxiosError): string => {
   return error.message || "Erro na requisição";
 };
 
+const isPublicRoute = (): boolean => {
+  if (typeof window === "undefined") {
+    return false;
+  }
+  const { pathname } = window.location;
+  return PUBLIC_ROUTES.some((route) => pathname.startsWith(route));
+};
+
 const redirectToLogin = () => {
   if (typeof window === "undefined") {
     return;
@@ -38,6 +49,11 @@ const redirectToLogin = () => {
 };
 
 const handleAuthRedirect = (error: AxiosError) => {
+  // Não redireciona se estiver em uma rota pública
+  if (isPublicRoute()) {
+    return;
+  }
+
   if (error.response?.status === 401 || error.response?.status === 403) {
     redirectToLogin();
   }

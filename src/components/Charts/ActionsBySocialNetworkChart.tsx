@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import Chart from "react-apexcharts";
 import { metricsService } from "@/services";
+import { QUERY_KEYS } from "@/constants";
 import { remToPx } from "@/utils";
 import type { ApexOptions } from "apexcharts";
 import chartStyles from "./Chart.module.scss";
@@ -14,7 +15,7 @@ const ActionsBySocialNetworkChart = ({
   hours = 24,
 }: ActionsBySocialNetworkChartProps) => {
   const { data, isLoading, error } = useQuery({
-    queryKey: ["distribution-social", hours],
+    queryKey: [QUERY_KEYS.metrics.distributionSocial, hours],
     queryFn: () => metricsService.getDistributionSocial({ hours }),
   });
 

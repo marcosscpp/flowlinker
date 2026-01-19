@@ -1,11 +1,12 @@
-import { useState } from "react";
 import styles from "./Billing.module.scss";
 import { PageHeader, Button, Modal, ModalGhostButton } from "@/components";
 import { useQuery } from "@tanstack/react-query";
 import { billingService } from "@/services";
+import { useModal } from "@/hooks";
+import { QUERY_KEYS } from "@/constants";
 
 const Billing = () => {
-  const [isModalOpen, setModalOpen] = useState(false);
+  const confirmModal = useModal();
 
   const FIFTEEN_MINUTES = 1000 * 60 * 15;
 
@@ -14,7 +15,7 @@ const Billing = () => {
     isFetching: loadingPortal,
     error: portalError,
   } = useQuery({
-    queryKey: ["billingPortalPortal"],
+    queryKey: [QUERY_KEYS.billing.portal],
     queryFn: () => billingService.openPortal(),
     enabled: false,
     staleTime: FIFTEEN_MINUTES,
@@ -25,31 +26,31 @@ const Billing = () => {
     const result = await fetchPortal();
     if (result.data) {
       window.open(result.data, "_blank", "noopener,noreferrer");
-      setModalOpen(false);
+      confirmModal.close();
     }
   };
 
   return (
     <section className={styles.container}>
       <PageHeader
-        title="Central de Pagamentos"
-        subtitle="Acesse o portal de pagamentos para visualizar faturas e atualizar dados de cobrança. Você será redirecionado para a plataforma segura da Stripe."
+        title="Informações de Pagamento"
+        subtitle="Gerencie suas informações de pagamento, visualize faturas e atualize seus dados de cobrança. Ao clicar no botão abaixo, você será redirecionado para o portal seguro da Stripe."
       />
 
-      <div className={styles.actions}>
-        <Button onClick={() => setModalOpen(true)}>
+      <div className={styles.actions} data-tourid="billing-action">
+        <Button onClick={confirmModal.open}>
           Abrir portal de pagamentos
         </Button>
       </div>
 
       <Modal
-        isOpen={isModalOpen}
-        onClose={() => setModalOpen(false)}
+        isOpen={confirmModal.isOpen}
+        onClose={confirmModal.close}
         title="Ir para Stripe"
         footer={
           <>
             <ModalGhostButton
-              onClick={() => setModalOpen(false)}
+              onClick={confirmModal.close}
               disabled={loadingPortal}
             >
               Cancelar

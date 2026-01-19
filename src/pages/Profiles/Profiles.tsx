@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import { useMemo, useState, useRef, useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useModal } from "@/hooks";
 import {
   Badge,
   Button,
@@ -10,6 +11,8 @@ import {
   Modal,
   PageHeader,
   ModalGhostButton,
+  QueryState,
+  SkeletonProfiles,
 } from "@/components";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
@@ -28,6 +31,8 @@ import {
   socialMediaAccountsService,
   type SocialMediaAccountResponse,
 } from "@/services";
+import { QUERY_KEYS } from "@/constants";
+import { useToast } from "@/context";
 
 const STATUS_LABELS: Record<string, string> = {
   ACTIVE: "Ativa",
@@ -48,11 +53,15 @@ const platformIconMap = {
 
 type PersonaPlatform = keyof typeof platformIconMap;
 
-const AVAILABLE_ACCOUNTS_QUERY_KEY = ["availableAccounts"] as const;
-
 const Profiles = () => {
   const queryClient = useQueryClient();
-  const [isModalOpen, setModalOpen] = useState(false);
+  const toast = useToast();
+
+  // Modais padronizados com useModal
+  const createModal = useModal();
+  const deleteModal = useModal<SocialMediaAccountResponse>();
+  const editModal = useModal<SocialMediaAccountResponse>();
+
   const [selectedPlatforms, setSelectedPlatforms] = useState<
     Record<PersonaPlatform, boolean>
   >({
@@ -65,10 +74,6 @@ const Profiles = () => {
     password: "",
     platform: "instagram" as PersonaPlatform,
   });
-  const [personaToDelete, setPersonaToDelete] =
-    useState<SocialMediaAccountResponse | null>(null);
-  const [personaToEdit, setPersonaToEdit] =
-    useState<SocialMediaAccountResponse | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [isCategoriesDropdownOpen, setIsCategoriesDropdownOpen] =
     useState(false);
@@ -94,7 +99,7 @@ const Profiles = () => {
     error: personasError,
   } = useQuery({
     queryKey: [
-      ...AVAILABLE_ACCOUNTS_QUERY_KEY,
+      ...[QUERY_KEYS.accounts.available],
       selectedPlatforms.instagram,
       selectedPlatforms.facebook,
       selectedCategory,
@@ -123,7 +128,7 @@ const Profiles = () => {
     isLoading: loadingCategories,
     error: categoriesError,
   } = useQuery({
-    queryKey: ["socialCategories"],
+    queryKey: [QUERY_KEYS.accounts.categories],
     queryFn: () => socialMediaAccountsService.getCategories(),
     staleTime: 1000 * 60 * 60 * 24 * 7,
     gcTime: 1000 * 60 * 60 * 24 * 30,
@@ -149,7 +154,7 @@ const Profiles = () => {
     ) => SocialMediaAccountResponse[]
   ) => {
     queryClient.setQueryData<SocialMediaAccountResponse[]>(
-      AVAILABLE_ACCOUNTS_QUERY_KEY,
+      [QUERY_KEYS.accounts.available],
       (previous) => updater(previous ?? [])
     );
   };
@@ -161,15 +166,19 @@ const Profiles = () => {
         newPersona,
         ...previous.filter((persona) => persona.id !== newPersona.id),
       ]);
-      queryClient.invalidateQueries({ queryKey: ["activeAccounts"] });
-      queryClient.invalidateQueries({ queryKey: AVAILABLE_ACCOUNTS_QUERY_KEY });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.accounts.active] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.accounts.available] });
       setPersonaForm({
         profileName: "",
         username: "",
         password: "",
         platform: "instagram",
       });
-      setModalOpen(false);
+      toast.success("Perfil criado com sucesso!");
+      createModal.close();
+    },
+    onError: (error: Error) => {
+      toast.error(error.message);
     },
   });
 
@@ -179,12 +188,14 @@ const Profiles = () => {
       setAvailableAccountsCache((previous) =>
         previous.filter((persona) => persona.id !== deletedId)
       );
-      queryClient.invalidateQueries({ queryKey: AVAILABLE_ACCOUNTS_QUERY_KEY });
-      closeDeleteModal();
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.accounts.available] });
+      toast.success("Perfil excluído com sucesso!");
+      deleteModal.close();
+    },
+    onError: (error: Error) => {
+      toast.error(error.message);
     },
   });
-
-  const toggleModal = () => setModalOpen((prev) => !prev);
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -198,20 +209,13 @@ const Profiles = () => {
     createPersonaMutation.mutate();
   };
 
-  const handleDeleteClick = (persona: SocialMediaAccountResponse) => {
-    setPersonaToDelete(persona);
-  };
-
-  const closeDeleteModal = () => setPersonaToDelete(null);
-  const closeEditModal = () => setPersonaToEdit(null);
-
   const handleConfirmDelete = () => {
-    if (!personaToDelete) return;
-    deletePersonaMutation.mutate(personaToDelete.id);
+    if (!deleteModal.data) return;
+    deletePersonaMutation.mutate(deleteModal.data.id);
   };
 
   const openEditModal = (persona: SocialMediaAccountResponse) => {
-    setPersonaToEdit(persona);
+    editModal.openWith(persona);
     setEditForm({
       profileName: persona.profileName ?? "",
       username: persona.username ?? "",
@@ -264,7 +268,7 @@ const Profiles = () => {
 
   const updatePersonaMutation = useMutation({
     mutationFn: async () => {
-      if (!personaToEdit) return null;
+      if (!editModal.data) return null;
       const payload: {
         nomePerfil?: string;
         username?: string;
@@ -282,15 +286,19 @@ const Profiles = () => {
         payload.slugs = editForm.slugs;
       if (editForm.status) payload.status = editForm.status;
 
-      return socialMediaAccountsService.update(personaToEdit.id, payload);
+      return socialMediaAccountsService.update(editModal.data.id, payload);
     },
     onSuccess: (updated) => {
       if (!updated) return;
       setAvailableAccountsCache((previous) =>
         previous.map((p) => (p.id === updated.id ? { ...p, ...updated } : p))
       );
-      queryClient.invalidateQueries({ queryKey: AVAILABLE_ACCOUNTS_QUERY_KEY });
-      closeEditModal();
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.accounts.available] });
+      toast.success("Perfil atualizado com sucesso!");
+      editModal.close();
+    },
+    onError: (error: Error) => {
+      toast.error(error.message);
     },
   });
 
@@ -323,12 +331,14 @@ const Profiles = () => {
         title="Gerenciador de Perfis"
         subtitle="Crie e gerencie perfis virtuais para automatizar suas interações."
         action={
-          <Button
-            leftIcon={<HugeiconsIcon icon={UserMultiple03Icon} />}
-            onClick={toggleModal}
-          >
-            Adicionar Perfil
-          </Button>
+          <div data-tourid="profiles-add">
+            <Button
+              leftIcon={<HugeiconsIcon icon={UserMultiple03Icon} />}
+              onClick={createModal.open}
+            >
+              Adicionar Perfil
+            </Button>
+          </div>
         }
       />
 
@@ -371,21 +381,17 @@ const Profiles = () => {
 
       <Badge>Total de Perfis: {personaCards.length}</Badge>
 
-      <div className={styles.personasGrid}>
-        {loadingPersonas && (
-          <p className="body-sm">Carregando perfis disponíveis...</p>
-        )}
-        {personasError && (
-          <p className="body-sm">
-            Não foi possível carregar os perfis. Tente novamente em instantes.
-          </p>
-        )}
-        {!loadingPersonas && !personasError && personaCards.length === 0 && (
-          <p className="body-sm">
-            Nenhum perfil disponível no momento. Crie um novo para começar.
-          </p>
-        )}
-        {personaCards.map(({ account, ...persona }) => {
+      <div className={styles.personasGrid} data-tourid="profiles-list">
+        <QueryState
+          isLoading={loadingPersonas}
+          error={personasError}
+          hasData={personaCards.length > 0}
+          skeleton={<SkeletonProfiles count={4} />}
+          errorText="Não foi possível carregar os perfis. Tente novamente em instantes."
+          emptyState="Nenhum perfil disponível no momento. Crie um novo para começar."
+          className={styles.gridLoader}
+        >
+          {personaCards.map(({ account, ...persona }) => {
           const PlatformIcon = platformIconMap[persona.platform];
           const personaCategories = (
             (account as SocialMediaAccountResponse).slugs || []
@@ -459,7 +465,7 @@ const Profiles = () => {
                 <button
                   type="button"
                   className={styles.personaActionDelete}
-                  onClick={() => handleDeleteClick(account)}
+                  onClick={() => deleteModal.openWith(account)}
                 >
                   <HugeiconsIcon icon={Delete02Icon} />
                   <span className="body-sm">Deletar</span>
@@ -468,16 +474,17 @@ const Profiles = () => {
             </article>
           );
         })}
+        </QueryState>
       </div>
 
       <Modal
-        isOpen={isModalOpen}
-        onClose={toggleModal}
+        isOpen={createModal.isOpen}
+        onClose={createModal.close}
         title="Adicionar perfil"
         footer={
           <>
             <ModalGhostButton
-              onClick={toggleModal}
+              onClick={createModal.close}
               disabled={createPersonaMutation.isPending}
             >
               Cancelar
@@ -546,13 +553,13 @@ const Profiles = () => {
       </Modal>
 
       <Modal
-        isOpen={Boolean(personaToEdit)}
-        onClose={closeEditModal}
+        isOpen={editModal.isOpen}
+        onClose={editModal.close}
         title="Editar perfil"
         footer={
           <>
             <ModalGhostButton
-              onClick={closeEditModal}
+              onClick={editModal.close}
               disabled={updatePersonaMutation.isPending}
             >
               Cancelar
@@ -712,13 +719,13 @@ const Profiles = () => {
       </Modal>
 
       <Modal
-        isOpen={Boolean(personaToDelete)}
-        onClose={closeDeleteModal}
+        isOpen={deleteModal.isOpen}
+        onClose={deleteModal.close}
         title="Excluir perfil"
         footer={
           <>
             <ModalGhostButton
-              onClick={closeDeleteModal}
+              onClick={deleteModal.close}
               disabled={deletePersonaMutation.isPending}
             >
               Cancelar
@@ -737,7 +744,7 @@ const Profiles = () => {
         <p className="body-md">
           Tem certeza que deseja excluir o perfil{" "}
           <strong>
-            {personaToDelete?.profileName ?? personaToDelete?.username}
+            {deleteModal.data?.profileName ?? deleteModal.data?.username}
           </strong>{" "}
           ? Essa ação não pode ser desfeita.
         </p>

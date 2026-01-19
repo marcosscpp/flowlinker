@@ -11,6 +11,7 @@ interface SidebarItemProps {
   status: "active" | "default";
   to: string;
   traillingIcon: ReactNode;
+  "data-tourid"?: string;
 }
 
 const SidebarItem = ({
@@ -20,6 +21,7 @@ const SidebarItem = ({
   to,
   traillingIcon,
   isExpanded = true,
+  "data-tourid": dataTourid,
 }: SidebarItemProps) => {
   return (
     <li
@@ -27,6 +29,7 @@ const SidebarItem = ({
         [styles.expanded]: isExpanded,
         [styles.active]: status === "active",
       })}
+      data-tourid={dataTourid}
     >
       <Link to={to} className={styles.content}>
         <div className={styles.contentWrapper}>
