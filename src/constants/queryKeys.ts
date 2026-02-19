@@ -49,6 +49,11 @@ export const QUERY_KEYS = {
     list: "campaigns.list",
   },
 
+  // Campaign Reports
+  campaignReports: {
+    details: "campaignReports.details",
+  },
+
   // Billing
   billing: {
     portal: "billing.portal",
@@ -63,4 +68,5 @@ export type QueryKeyValue =
   | typeof QUERY_KEYS.accounts[keyof typeof QUERY_KEYS.accounts]
   | typeof QUERY_KEYS.devices[keyof typeof QUERY_KEYS.devices]
   | typeof QUERY_KEYS.campaigns[keyof typeof QUERY_KEYS.campaigns]
+  | typeof QUERY_KEYS.campaignReports[keyof typeof QUERY_KEYS.campaignReports]
   | typeof QUERY_KEYS.billing[keyof typeof QUERY_KEYS.billing];

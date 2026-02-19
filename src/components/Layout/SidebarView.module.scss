@@ -12,14 +12,48 @@
   position: sticky;
   transition: width 0.3s ease-in-out, transform 0.3s ease-in-out;
   z-index: 1000;
+  overflow: visible;
 
   &.expanded {
-    width: 22rem;
+    width: 20rem;
   }
 
   &.collapsed {
     width: auto;
   }
+}
+
+.toggleButton {
+  position: absolute;
+  top: 1.5rem;
+  right: -1.25rem;
+  z-index: 1001;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-gray-300);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  color: var(--color-gray-700);
+
+  &:hover {
+    background-color: var(--color-gray-50);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.toggleMobile {
+  top: 1rem;
+  right: 1rem;
 }
 
 .overlay {
@@ -37,8 +71,23 @@
   transition: padding 0.3s ease-in-out;
 }
 
+/* Notebook / Tablet landscape */
+@media (max-width: 1366px) {
+  .sidebar.expanded {
+    width: 18rem;
+  }
+
+  .main {
+    padding: 3rem;
+  }
+}
+
 /* Tablet */
 @media (max-width: 1240px) {
+  .sidebar.expanded {
+    width: 16rem;
+  }
+
   .main {
     padding: 2rem;
   }
@@ -51,6 +100,7 @@
     left: 0;
     top: 0;
     height: 100vh;
+    height: 100dvh;
     transform: translateX(-100%);
     transition: transform 0.3s ease-in-out;
     width: 80vw;
@@ -58,6 +108,8 @@
 
     &.expanded {
       transform: translateX(0);
+      width: 80vw;
+      max-width: 20rem;
     }
 
     &.collapsed {
@@ -95,4 +147,3 @@
     padding-top: 5rem;
   }
 }
-

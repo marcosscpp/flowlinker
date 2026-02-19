@@ -8,6 +8,7 @@ export { devicesService } from "@/services/devices";
 export { billingService } from "@/services/billing";
 export { dicasPostService } from "@/services/dicasPost";
 export { campaignsService } from "@/services/campaigns";
+export { campaignReportsService } from "@/services/campaignReports";
 export { extractionsService } from "@/services/extractions";
 export type { LatestReleaseResponse } from "@/services/appReleases";
 export type { CustomerNameResponse } from "@/services/customer";
@@ -49,6 +50,13 @@ export type {
   CampaignTrigger,
   PaginatedResponse,
 } from "@/services/campaigns";
+export type {
+  CampaignDetailItem,
+  CampaignDetailsResponse,
+  ShareEvent,
+  DirectMessageEvent,
+  ExportFormat,
+} from "@/services/campaignReports";
 export type {
   ExtractionSummary,
   ExtractionGroup,

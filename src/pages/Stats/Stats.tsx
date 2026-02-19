@@ -6,6 +6,7 @@ import {
   ActionsBySocialNetworkChart,
   HeatmapChart,
   SummaryCard,
+  CampaignReportsSection,
 } from "@/components/Charts";
 import styles from "./Stats.module.scss";
 
@@ -74,6 +75,10 @@ const Stats = () => {
         <div className={styles.chartCardFull}>
           <HeatmapChart days={days} />
         </div>
+      </div>
+
+      <div className={styles.chartCardFull}>
+        <CampaignReportsSection />
       </div>
     </section>
   );

@@ -118,5 +118,6 @@ export const SkeletonKpi = ({ className }: { className?: string }) => (
 export { default as SkeletonProfiles } from "./SkeletonProfiles";
 export { default as SkeletonDevices } from "./SkeletonDevices";
 export { default as SkeletonCampaigns } from "./SkeletonCampaigns";
+export { default as SkeletonChart } from "./SkeletonChart";
 
 export default Skeleton;

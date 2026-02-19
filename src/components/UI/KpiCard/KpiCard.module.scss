@@ -7,9 +7,9 @@
   flex-direction: column;
   gap: 0.5rem;
   justify-content: center;
-  min-height: 8.75rem;
-  min-width: 18.75rem;
-  padding: 0.75rem;
+  min-height: 7rem;
+  min-width: 0;
+  padding: 1rem;
   position: relative;
   text-align: center;
   width: 100%;
@@ -20,8 +20,9 @@
 .label {
   color: var(--color-gray-800);
   margin: 0 auto;
-  max-width: 15rem;
+  max-width: 100%;
   text-wrap: balance;
+  word-break: break-word;
 }
 .labelWrapper {
   align-items: center;
@@ -73,34 +74,34 @@
   background-color: var(--color-indigo-900);
   border-radius: 0.5rem;
   color: var(--color-white);
-  left: calc(100% + 1rem);
-  top: 50%;
-  transform: translate(-0.5rem, -50%);
-  transform-origin: left center;
-  min-width: 15rem;
+  right: 0;
+  top: calc(100% + 0.75rem);
+  transform: translateY(-0.25rem);
+  transform-origin: top right;
+  min-width: 14rem;
+  max-width: 18rem;
   opacity: 0;
   padding: 0.5rem 0.85rem;
   pointer-events: none;
   position: absolute;
-  text-align: center;
+  text-align: left;
   transition: opacity 0.25s ease, transform 0.25s ease;
   z-index: 1000;
 
   &::after {
     content: "";
     position: absolute;
-    top: 50%;
-    left: -1.125rem;
-    transform: translateY(-50%);
-    border-width: 0.65rem;
+    top: -0.6rem;
+    right: 0.5rem;
+    border-width: 0 0.5rem 0.65rem 0.5rem;
     border-style: solid;
-    border-color: transparent var(--color-indigo-900) transparent transparent;
+    border-color: transparent transparent var(--color-indigo-900) transparent;
   }
 }
 
 .tooltipTrigger:hover .tooltip {
   opacity: 1;
-  transform: translate(0, -50%);
+  transform: translateY(0);
 }
 
 .spinnerOverlay {

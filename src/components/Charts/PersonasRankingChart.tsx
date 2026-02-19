@@ -4,6 +4,7 @@ import { metricsService } from "@/services";
 import { QUERY_KEYS } from "@/constants";
 import { colors } from "@/styles";
 import { remToPx } from "@/utils";
+import { SkeletonChart } from "@/components/UI/Skeleton";
 import type { ApexOptions } from "apexcharts";
 import chartStyles from "./Chart.module.scss";
 
@@ -22,11 +23,7 @@ const PersonasRankingChart = ({
   });
 
   if (isLoading) {
-    return (
-      <div className={chartStyles.container}>
-        <p className="body-sm">Carregando ranking...</p>
-      </div>
-    );
+    return <SkeletonChart variant="ranking" height={350} />;
   }
 
   if (error) {

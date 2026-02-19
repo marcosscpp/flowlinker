@@ -14,13 +14,14 @@ import {
   ModalGhostButton,
 } from "@/components";
 import { useModal } from "@/hooks";
-import { authService, billingService, customerService } from "@/services";
-import { useToast } from "@/context";
+import { authService, billingService } from "@/services";
+import { useToast, useAuth } from "@/context";
 import { QUERY_KEYS } from "@/constants";
 import styles from "./Settings.module.scss";
 
 const Settings = () => {
   const toast = useToast();
+  const { user } = useAuth();
   const confirmPortalModal = useModal();
 
   // Form de alteração de senha
@@ -28,13 +29,6 @@ const Settings = () => {
     currentPassword: "",
     newPassword: "",
     confirmPassword: "",
-  });
-
-  // Query para nome do usuário
-  const { data: customerData } = useQuery({
-    queryKey: [QUERY_KEYS.customer.name],
-    queryFn: () => customerService.getName(),
-    staleTime: 1000 * 60 * 30,
   });
 
   // Query para portal de pagamentos
@@ -118,7 +112,7 @@ const Settings = () => {
             <div className={styles.cardContent}>
               <div className={styles.infoRow}>
                 <span className="body-sm-bold">Nome:</span>
-                <span className="body-sm">{customerData?.name || "—"}</span>
+                <span className="body-sm">{user?.name || "—"}</span>
               </div>
             </div>
           </article>

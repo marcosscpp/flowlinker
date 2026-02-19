@@ -2,6 +2,12 @@ import { useState, useEffect, useCallback } from "react";
 import { Sidebar } from "@/components";
 import type { ReactNode } from "react";
 import clsx from "clsx";
+import { HugeiconsIcon } from "@hugeicons/react";
+import {
+  ArrowLeft01Icon,
+  ArrowRight01Icon,
+  Cancel01Icon,
+} from "@hugeicons/core-free-icons";
 import styles from "./SidebarView.module.scss";
 import BottomNav from "./BottomNav";
 import { BREAKPOINTS } from "@/constants";
@@ -42,6 +48,11 @@ const SidebarView = ({ children }: SidebarViewProps) => {
     setIsExpanded(true);
   };
 
+  const getToggleIcon = () => {
+    if (isMobile) return Cancel01Icon;
+    return isExpanded ? ArrowLeft01Icon : ArrowRight01Icon;
+  };
+
   return (
     <div className={styles.container}>
       <div
@@ -57,7 +68,19 @@ const SidebarView = ({ children }: SidebarViewProps) => {
           [styles.collapsed]: !isExpanded,
         })}
       >
-        <Sidebar isExpanded={isExpanded} onToggle={handleToggle} isMobile={isMobile} />
+        <Sidebar isExpanded={isExpanded} isMobile={isMobile} />
+        {(!isMobile || isExpanded) && (
+          <button
+            type="button"
+            className={clsx(styles.toggleButton, {
+              [styles.toggleMobile]: isMobile,
+            })}
+            onClick={handleToggle}
+            aria-label={isExpanded ? "Fechar menu" : "Abrir menu"}
+          >
+            <HugeiconsIcon icon={getToggleIcon()} size="1.5rem" />
+          </button>
+        )}
       </aside>
       <main className={styles.main}>{children}</main>
       {isMobile && <BottomNav onMenuClick={handleOpenSidebar} />}

@@ -1,11 +1,12 @@
+import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Chart from "react-apexcharts";
 import { metricsService } from "@/services";
 import { QUERY_KEYS } from "@/constants";
 import { remToPx } from "@/utils";
+import { SkeletonChart } from "@/components/UI/Skeleton";
 import type { ApexOptions } from "apexcharts";
 import chartStyles from "./Chart.module.scss";
-import { useMemo } from "react";
 
 interface ActionsBySocialNetworkChartProps {
   hours?: number;
@@ -37,11 +38,7 @@ const ActionsBySocialNetworkChart = ({
   }, [data]);
 
   if (isLoading) {
-    return (
-      <div className={chartStyles.container}>
-        <p className="body-sm">Carregando gráfico...</p>
-      </div>
-    );
+    return <SkeletonChart variant="donut" height={350} />;
   }
 
   if (error) {

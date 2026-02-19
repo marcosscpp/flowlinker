@@ -1,5 +1,6 @@
 import { useEffect, useCallback } from "react";
-import Joyride, { CallBackProps, STATUS, EVENTS, ACTIONS } from "react-joyride";
+import Joyride, { STATUS, EVENTS, ACTIONS } from "react-joyride";
+import type { CallBackProps } from "react-joyride";
 import { useTour } from "@/context/TourContext";
 import TourTooltip from "./TourTooltip";
 import tourSteps from "./tourSteps";

@@ -1,8 +1,8 @@
-@import "./reset.scss";
-@import "./variables.scss";
-@import "./font-scale.scss";
-@import "./typography.scss";
-@import "./utilities.scss";
+@use "./reset.scss";
+@use "./variables.scss";
+@use "./font-scale.scss";
+@use "./typography.scss";
+@use "./utilities.scss";
 
 :root {
   font-family: var(--font-montserrat), system-ui, -apple-system, BlinkMacSystemFont,
