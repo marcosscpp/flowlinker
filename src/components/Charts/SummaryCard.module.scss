@@ -1,48 +1,38 @@
+/* Define altura total para o container pai — por exemplo, a section ou main */
+.container {
+  height: 100vh; /* ocupa toda a altura da janela */
+  display: flex;
+  flex-direction: column;
+  padding: 1rem; /* opcional, só para espaçamento */
+}
+
+/* Content ocupa todo espaço vertical disponível dentro do container */
 .content {
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  width: 100%;
+  min-height: 0; /* evita overflow no flex container */
 }
 
+/* Grid que ocupa todo o espaço restante em .content */
 .grid {
+  flex: 1;
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(2, 1fr); /* duas colunas fixas */
+  grid-template-rows: 1fr 1fr; /* duas linhas que crescem igualmente */
   gap: 1rem;
-
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  min-height: 0; /* evita overflow */
 }
 
+/* Cada card ocupa 100% da altura da célula do grid */
 .kpiCard {
-  min-height: auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* centraliza verticalmente o conteúdo */
   padding: 1rem;
+  background-color: #e0e4ff; /* só pra visualizar, ajuste conforme quiser */
+  border-radius: 8px; /* opcional */
+  box-sizing: border-box;
 }
-
-.largeCardWrapper {
-  width: 100%;
-}
-
-.largeCard {
-  background-color: var(--color-indigo-600) !important;
-  border-color: var(--color-indigo-600) !important;
-  min-height: auto;
-  padding: 1.5rem;
-
-  :global(.body-sm-bold),
-  :global(.label) {
-    color: var(--color-white) !important;
-  }
-
-  :global(.title-lg),
-  :global(.value) {
-    color: var(--color-white) !important;
-  }
-
-  :global(.tooltipTrigger),
-  :global(.infoIcon) {
-    color: var(--color-white) !important;
-  }
-}
-

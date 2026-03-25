@@ -76,14 +76,7 @@ const SummaryCard = ({ hours = 24 }: SummaryCardProps) => {
             className={styles.kpiCard}
           />
         </div>
-        <div className={styles.largeCardWrapper}>
-          <KpiCard
-            label="Máximo de Pessoas Atingidas"
-            value={peopleReachedData?.peopleReached ?? 0}
-            loading={loadingPeopleReached}
-            className={styles.largeCard}
-          />
-        </div>
+
       </div>
     </div>
   );

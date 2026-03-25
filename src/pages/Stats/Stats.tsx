@@ -60,7 +60,7 @@ const Stats = () => {
       />
 
       <div className={styles.chartsGrid} data-tourid="stats-charts">
-        <div className={styles.chartCard}>
+         <div className={styles.chartCard}>
           <SummaryCard hours={hours} />
         </div>
         <div className={styles.chartCard}>
